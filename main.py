@@ -1,7 +1,43 @@
-# This is a sample Python script.
+import csv
+import json
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+name_1 = "RomV"
+name_2 = "EvgV"
+data_names = ["oleg", "vera"]
+
+with open ("proba.csv", "w") as file:
+    writer = csv.writer(file, delimiter = ";")
+
+    writer.writerow(
+        ("user_name", "country")
+    )
+
+users_data = [
+    ["user1", "country1"],
+    ["user2", "country2"],
+    ["user3", "country3"],
+]
+
+for user in users_data:
+    with open("proba.csv","a") as file:
+        writer = csv.writer(file, delimiter = ";")
+        writer.writerow(user)
+
+with open("data.csv", "w") as file:
+    writer = csv.writer(file, delimiter = ";")
+    writer.writerow(
+        (
+            "Цена",
+            "Количество монет",
+            "Итог"
+        )
+    )
+
+#with open("data.txt") as file1:
+#    src = json.load(file1)
+#print(src)
+
+
 
 
 def print_hi(name):
