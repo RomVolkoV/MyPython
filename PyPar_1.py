@@ -21,5 +21,11 @@ soup = BeautifulSoup(src, "lxml")
 user_name = soup.find("div").find_all(class_ = "user__city")
 print(user_name)
 for item in user_name:
-    print(item.text)
-#print(user_name.text.strip())
+     print(item.text)
+
+social_links = soup.find("div").find(class_ = "social__networks").find("ul").find_all("a")
+print(social_links)
+for item in social_links:
+    print("Text: ", item.text)
+    print("Ссылка: ", item.get("href"))
+
