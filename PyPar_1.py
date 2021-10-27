@@ -1,0 +1,22 @@
+from bs4 import BeautifulSoup
+
+with open("blank/index.html", encoding = 'utf-8') as file:
+    src = file.read()
+#print(src)
+
+soup = BeautifulSoup(src, "lxml")
+
+# title = soup.title
+# print(title)
+# print(title.text)
+# print(title.string)
+
+#Методы .find()  .find_all()
+
+# page_1 = soup.find_all("h1")
+# print(page_1)
+# for item in page_1:
+#     print(item.string)
+
+user_name = soup.find("div")
+print(user_name)
