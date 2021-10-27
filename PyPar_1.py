@@ -18,8 +18,22 @@ soup = BeautifulSoup(src, "lxml")
 # for item in page_1:
 #     print(item.string)
 
-user_name = soup.find("div").find_all(class_ = "user__city")
-print(user_name)
-for item in user_name:
-    print(item.text)
-#print(user_name.text.strip())
+# user_name = soup.find("div").find_all(class_ = "user__city")
+# print(user_name)
+# for item in user_name:
+#      print(item.text)
+#
+# social_links = soup.find("div").find(class_ = "social__networks").find("ul").find_all("a")
+# print(social_links)
+# for item in social_links:
+#     print("Text: ", item.text)
+#     print("Ссылка: ", item.get("href"))
+
+# Найдем все a
+all_a = soup.find("a")
+print(all_a.text, all_a.get("href"))
+# next_a = soup.find("a").next_element.text
+# print_next_a
+# for item in all_a:
+#     print(item.text, item.get("href"))
+
