@@ -1,6 +1,8 @@
 import csv
 import json
 
+# Версия от 27.10.2021
+
 name_1 = "RomV"
 name_2 = "EvgV"
 data_names = ["oleg", "vera"]
