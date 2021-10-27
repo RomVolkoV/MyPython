@@ -18,5 +18,8 @@ soup = BeautifulSoup(src, "lxml")
 # for item in page_1:
 #     print(item.string)
 
-user_name = soup.find("div")
+user_name = soup.find("div").find_all(class_ = "user__city")
 print(user_name)
+for item in user_name:
+    print(item.text)
+#print(user_name.text.strip())
