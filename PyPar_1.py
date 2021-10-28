@@ -29,6 +29,9 @@ soup = BeautifulSoup(src, "lxml")
 #     print("Text: ", item.text)
 #     print("Ссылка: ", item.get("href"))
 
+# user_name = soup.find("div", class_ = "user__name").find("span").text
+# print(user_name)
+
 # Найдем все a
 all_a = soup.find("a")
 print(all_a.text, all_a.get("href"))
@@ -37,3 +40,23 @@ print(all_a.text, all_a.get("href"))
 # for item in all_a:
 #     print(item.text, item.get("href"))
 
+# post_div = soup.find(class_ = "post__text")
+# post_div_parent = soup.find(class_ = "post__text").find_parent("div", "user__post")
+# print(f"{post_div}")
+# print("-----------")
+# print(f"{post_div_parent}")
+
+# post_div = soup.find(class_ = "post__text")
+# post_div_parent = soup.find(class_ = "post__text").find_parents()
+# print(f"{post_div}")
+# print("-----------")
+# print(f"{post_div_parent}")
+
+
+# next_element previous_element
+post_title = soup.find(class_ = "post__title").next_element.next_element.text
+print(f"{post_title}")
+
+# find_next()
+post_title = soup.find(class_ = "post__title").find_next().text
+print(f"{post_title}")
