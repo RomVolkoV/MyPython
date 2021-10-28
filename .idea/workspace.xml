@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b6a142ec-68be-45c7-96a9-1083f7ea233f" name="Changes" comment="Update main.py">
+    <list default="true" id="b6a142ec-68be-45c7-96a9-1083f7ea233f" name="Changes" comment="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PyPar_1.py" beforeDir="false" afterPath="$PROJECT_DIR$/PyPar_1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blank/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/blank/index.html" afterDir="false" />
@@ -181,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635417178871</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <created>1635419898245</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1635419898245</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -198,6 +205,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update main.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update main.py" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
   </component>
 </project>

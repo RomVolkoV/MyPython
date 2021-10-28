@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import re
 
 with open("blank/index.html", encoding = 'utf-8') as file:
     src = file.read()
@@ -33,8 +34,8 @@ soup = BeautifulSoup(src, "lxml")
 # print(user_name)
 
 # Найдем все a
-all_a = soup.find("a")
-print(all_a.text, all_a.get("href"))
+# all_a = soup.find("a")
+# print(all_a.text, all_a.get("href"))
 # next_a = soup.find("a").next_element.text
 # print_next_a
 # for item in all_a:
@@ -54,9 +55,43 @@ print(all_a.text, all_a.get("href"))
 
 
 # next_element previous_element
-post_title = soup.find(class_ = "post__title").next_element.next_element.text
-print(f"{post_title}")
+# post_title = soup.find(class_ = "post__title").next_element.next_element.text
+# print(f"{post_title}")
+#
+# # find_next()
+# post_title = soup.find(class_ = "post__title").find_next().text
+# print(f"{post_title}")
 
-# find_next()
-post_title = soup.find(class_ = "post__title").find_next().text
-print(f"{post_title}")
+# .find_next_sibling() .find_previous_sibling()
+# next_sib = soup.find(class_="post__title").find_next_sibling()
+# print(next_sib)
+
+# prev_sib = soup.find(class_="post__date").find_previous_sibling()
+# print(prev_sib)
+
+# Можно комбинировать методы
+# post_title = soup.find(class_="post__date").find_previous_sibling().find_next().text
+# print(post_title)
+
+links = soup.find("div", class_ = "some__links").find_all("a")
+# print(links)
+#
+# for item in links:
+#     link_text = item.text
+#     link_href = item["href"]
+#     link_data_attr = item.get("data-attr")
+#     print(f"{link_text}:{link_href}:{link_data_attr}")
+
+# вместо метода get можно так
+# link_href = item.get("href")
+# link_href = item["href"]
+
+# find_a_by_text = soup.find("a", text = "Одежда")
+# print(find_a_by_text)
+#
+# find_a_by_text = soup.find("a", text = "Одежда для взрослых")
+# print(find_a_by_text)
+
+#модуль регулярных выражений re
+find_a_by_text = soup.find("a", text = re.compile("Одежда"))
+print(find_a_by_text)
