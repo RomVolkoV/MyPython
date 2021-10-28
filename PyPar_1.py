@@ -54,9 +54,21 @@ print(all_a.text, all_a.get("href"))
 
 
 # next_element previous_element
-post_title = soup.find(class_ = "post__title").next_element.next_element.text
-print(f"{post_title}")
+# post_title = soup.find(class_ = "post__title").next_element.next_element.text
+# print(f"{post_title}")
+#
+# # find_next()
+# post_title = soup.find(class_ = "post__title").find_next().text
+# print(f"{post_title}")
 
-# find_next()
-post_title = soup.find(class_ = "post__title").find_next().text
-print(f"{post_title}")
+# .find_next_sibling() .find_previous_sibling()
+# next_sib = soup.find(class_="post__title").find_next_sibling()
+# print(next_sib)
+
+# prev_sib = soup.find(class_="post__date").find_previous_sibling()
+# print(prev_sib)
+
+# Можно комбинировать методы
+# post_title = soup.find(class_="post__date").find_previous_sibling().find_next().text
+# print(post_title)
+
