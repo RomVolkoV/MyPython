@@ -61,8 +61,15 @@ for category_name, category_href in all_categories.items():
             file.write(src)
 
         with open(f"blank/{count}_{category_name}.html",encoding = 'utf-8') as file:
-            src = file.read(src)
+            src = file.read()
         soup = BeautifulSoup(src, "lxml")
 
 # Собираем заголовки таблицы
+        table_head = soup.find(class_ = "uk-table mzr-tc-group-table uk-table-hover uk-table-striped uk-table-condensed").find("tr").find_all("th")
+        product = table_head[0].text
+        calories = table_head[1].text
+        proteins = table_head[2].text
+        fats = table_head[3].text
+        carbohydrates = table_head[4].text
+        print(carbohydrates)
         count += 1
