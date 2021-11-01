@@ -20,6 +20,7 @@ headers = {
 # with open("blank/index3.html","r", encoding = 'utf-8') as file:
 #      src = file.read()
 #
+# Получаем ссылки по всем группам продуктам - класс один и тот ж у всех групп
 # soup = BeautifulSoup(src,"lxml")
 # all_products_href = soup.find_all(class_ = "mzr-tc-group-item-href")
 # #i = 0
@@ -35,25 +36,33 @@ headers = {
 # with open("blank/all_categories_dict.json","w") as file:
 #     json.dump(all_categories_dict, file, indent = 4, ensure_ascii = False)
 #     # параментр indent - это отступ. Если убрать, то все пишется в одну строку
-#     # enshure_ascii - не экранирует символы и отображает кирилицу норм
+#     # enshure_ascii с флагом False - не экранирует символы и отображает кирилицу норм
 
 with open("blank/all_categories_dict.json") as file:
     all_categories = json.load(file)
+# Убедимся, что файл прочитан
+#print(all_categories)
 
 count = 0
 for category_name, category_href in all_categories.items():
 
+ #Для удобства чтения - заменить символы: зпт, тире, пробел и верхняя ковычка на нажнее подчеркивание
     if count == 0:
-        rep = [",", "-", " ", "'"]
+        rep = [",", "-", " ", "'"] # Список из символов, которые хоти заменить
         for item in rep:
             if item in category_name:
                 category_name = category_name.replace(item, "_")
         #print(category_name)
 
-        req = requests.get(url = categiry_href, headers = headers)
-        src = reg.text
+        req = requests.get(url = category_href, headers = headers)
+        src = req.text
 
-        with open(f"blank/{count}_{category_name.html}","w",encoding = 'utf-8') as file:
+        with open(f"blank/{count}_{category_name}.html","w",encoding = 'utf-8') as file:
             file.write(src)
 
+        with open(f"blank/{count}_{category_name}.html",encoding = 'utf-8') as file:
+            src = file.read(src)
+        soup = BeautifulSoup(src, "lxml")
+
+# Собираем заголовки таблицы
         count += 1
