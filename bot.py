@@ -9,19 +9,10 @@ bot_token = '1833545970:AAG9lOO9PZ8Yur3gu--N8GTcQkNc4ALg8dI'
 ukassa_token = '381764678:TEST:30583'
 prices = [LabeledPrice(label='KokkaSun capsules', amount=750), LabeledPrice('Gift wrapping', 500)]
 shipping_options = [
-    ShippingOption(id='instant', title='WorldWide Teleporter').add_price(LabeledPrice('Teleporter', 900)),
+    ShippingOption(id='instant', title='KokkaSun capsules').add_price(LabeledPrice('Capsules', 900)),
     ShippingOption(id='pickup', title='Local pickup').add_price(LabeledPrice('Pickup', 300))]
 
-
 bot = telebot.TeleBot(bot_token)
-
-# def is_int(text):
-#     try:
-#         int(text)
-#         return True
-#     except ValueError:
-#         return False
-
 
 # def add_user(message):
 #     #print(chat_id)
@@ -83,7 +74,7 @@ bot = telebot.TeleBot(bot_token)
 #     if res:
 #         kol = list(res[0])[1]
 #         #print(kol, type(kol))
-#         kol = kol + 1
+#         kol += 1
 #         conn = sqlite3.connect(r'db/kokka.db')
 #         cursor = conn.cursor()
 #         query = 'UPDATE CODE_TAB SET Count = ? WHERE Code = ?'
@@ -100,28 +91,28 @@ bot = telebot.TeleBot(bot_token)
 #     conn.close()
 #     return (res)
 
-@bot.message_handler(commands=['start'])
-def command_start(message):
-    bot.send_message(message.chat.id,
-                     "Hello, I'm the demo merchant bot."
-                     " I can sell you a Time Machine."
-                     " Use /buy to order one, /terms for Terms and Conditions")
-
 # @bot.message_handler(commands=['start'])
-# def start_message(message):
-# #    read_user(message)
-# #    langv = read_langv(message.chat.id)
-#     print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, ' написал start')
-# #    save_stack(message.chat.id, 0) # сохраняем позицию для пользователя Позиция = 0
-# #    start_pic = 'C:\Users\Roman\Desktop\kokka\kokkasun.jpg'
-#     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-#     start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
-#     start_menu.row('English', 'Russian')
-# #    bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
-#     # if langv == 'En':
-#     # bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
-#     # elif langv == 'Ru':
-#     bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
+# def command_start(message):
+#     bot.send_message(message.chat.id,
+#                      "Hello, I'm the demo merchant bot."
+#                      " I can sell you a Time Machine."
+#                      " Use /buy to order one, /terms for Terms and Conditions")
+
+@bot.message_handler(commands=['start'])
+def start_message(message):
+#    read_user(message)
+#    langv = read_langv(message.chat.id)
+    print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, ' написал start')
+#    save_stack(message.chat.id, 0) # сохраняем позицию для пользователя Позиция = 0
+#    start_pic = 'C:\Users\Roman\Desktop\kokka\kokkasun.jpg'
+    start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
+    start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
+    start_menu.row('English', 'Russian')
+#    bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
+    # if langv == 'En':
+    # bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
+    # elif langv == 'Ru':
+    bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
 
 @bot.message_handler(commands=['terms'])
 def process_terms_command(message):
@@ -147,48 +138,48 @@ def help_message(message):
     # elif langv == 'Ru':
     bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
 
-# @bot.message_handler(commands=['pay'])
-# def process_buy_command(message):
-#     if ukassa_token.split(':')[1] == 'TEST':
-#         bot.send_message(message.chat.id, MESSAGES['pre_buy_demo_alert'], parse_mode='Markdown')
-#         print(ukassa_token)
-#
-#         #bot.send_invoice()
-#     bot.send_invoice(message.chat.id,
-#                            title = 'title', #MESSAGES['tm_title'],
-#                            description = 'descr', #MESSAGES['tm_description'],
-#                            provider_token = ukassa_token,
-#                            currency = 'RUB',
-#                            #photo_url=TIME_MACHINE_IMAGE_URL,
-#                            #photo_height=512,  # !=0/None, иначе изображение не покажется
-#                            #photo_width=512,
-#                            #photo_size=512,
-#                            is_flexible = False,  # True если конечная цена зависит от способа доставки
-#                            prices = prices,
-#                            start_parameter = 'time-machine-example',
-#                            invoice_payload = '12345')
+@bot.message_handler(commands=['pay'])
+def process_buy_command(message):
+    if ukassa_token.split(':')[1] == 'TEST':
+        bot.send_message(message.chat.id, MESSAGES['pre_buy_demo_alert'], parse_mode='Markdown')
+        print(ukassa_token)
 
-@bot.message_handler(commands=['buy'])
-def command_pay(message):
-    bot.send_message(message.chat.id,
-                     "Real cards won't work with me, no money will be debited from your account."
-                     " Use this test card number to pay for your Time Machine: `4242 4242 4242 4242`"
-                     "\n\nThis is your demo invoice:", parse_mode='Markdown')
-    bot.send_invoice(message.chat.id, title='Working Time Machine',
-                     description='Want to visit your great-great-great-grandparents?'
-                                 ' Make a fortune at the races?'
-                                 ' Shake hands with Hammurabi and take a stroll in the Hanging Gardens?'
-                                 ' Order our Working Time Machine today!',
-                     provider_token=ukassa_token,
-                     currency='RUB',
-                     #photo_url='http://erkelzaar.tsudao.com/models/perrotta/TIME_MACHINE.jpg',
-                     #photo_height=512,  # !=0/None or picture won't be shown
-                     #photo_width=512,
-                     #photo_size=512,
-                     is_flexible=False,  # True If you need to set up Shipping Fee
-                     prices=prices,
-                     start_parameter='time-machine-example',
-                     invoice_payload='HAPPY FRIDAYS COUPON')
+        #bot.send_invoice()
+    bot.send_invoice(message.chat.id,
+                           title = 'title', #MESSAGES['tm_title'],
+                           description = 'descr', #MESSAGES['tm_description'],
+                           provider_token = ukassa_token,
+                           currency = 'RUB',
+                           #photo_url=TIME_MACHINE_IMAGE_URL,
+                           #photo_height=512,  # !=0/None, иначе изображение не покажется
+                           #photo_width=512,
+                           #photo_size=512,
+                           is_flexible = False,  # True если конечная цена зависит от способа доставки
+                           prices = prices,
+                           start_parameter = 'time-machine-example',
+                           invoice_payload = '12345')
+
+# @bot.message_handler(commands=['buy'])
+# def command_pay(message):
+#     bot.send_message(message.chat.id,
+#                      "Real cards won't work with me, no money will be debited from your account."
+#                      " Use this test card number to pay for your Time Machine: `4242 4242 4242 4242`"
+#                      "\n\nThis is your demo invoice:", parse_mode='Markdown')
+#     bot.send_invoice(message.chat.id, title='Working Time Machine',
+#                      description='Want to visit your great-great-great-grandparents?'
+#                                  ' Make a fortune at the races?'
+#                                  ' Shake hands with Hammurabi and take a stroll in the Hanging Gardens?'
+#                                  ' Order our Working Time Machine today!',
+#                      provider_token=ukassa_token,
+#                      currency='RUB',
+#                      #photo_url='http://erkelzaar.tsudao.com/models/perrotta/TIME_MACHINE.jpg',
+#                      #photo_height=512,  # !=0/None or picture won't be shown
+#                      #photo_width=512,
+#                      #photo_size=512,
+#                      is_flexible=False,  # True If you need to set up Shipping Fee
+#                      prices=prices,
+#                      start_parameter='time-machine-example',
+#                      invoice_payload='HAPPY FRIDAYS COUPON')
 
 @bot.shipping_query_handler(func=lambda query: True)
 def shipping(shipping_query):
@@ -212,10 +203,6 @@ def got_payment(message):
                          message.successful_payment.total_amount / 100, message.successful_payment.currency),
                      parse_mode='Markdown')
 
-
-#@bot.message_handler(commands=['romv'])
-#def help_message(message):
-#    bot.send_message(message.chat.id, 'Еще команда')
 
 # @bot.message_handler(content_types = ['text'])
 # def send_text(message):
@@ -353,6 +340,13 @@ def got_payment(message):
 #         time.sleep(1)
 #         bot.send_photo(message.chat.id, open('pic\\' + '8803720436652.png', 'rb'))
 # # -------------------------------------------
+
+def check_art(Art):
+
+
+for item in range(1, len(color_capsules)):
+    if item
+
 #     elif message.text.lower() == 'pink' or message.text.lower() == 'pin' or message.text.lower() == 'pi':
 #         if langv == 'En':
 #             msg = MESSAGES['Pink'] + "\n"
