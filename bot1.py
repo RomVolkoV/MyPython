@@ -10,7 +10,7 @@ bot = telebot.TeleBot(token)
 
 # More about Payments: https://core.telegram.org/bots/payments
 
-prices = [LabeledPrice(label='Working Time Machine', amount=5750), LabeledPrice('Gift wrapping', 500)]
+prices = [LabeledPrice(label='Working Time Machine', amount=75000)]#, LabeledPrice('Gift wrapping', 500)]
 
 shipping_options = [
     ShippingOption(id='instant', title='WorldWide Teleporter').add_price(LabeledPrice('Teleporter', 1000)),
@@ -42,7 +42,7 @@ def process_buy_command(message):
 
         #bot.send_invoice()
     bot.send_invoice(message.chat.id,
-                           title = 'title', #MESSAGES['tm_title'],
+                           title = 'Покупка', #MESSAGES['tm_title'],
                            description = 'descr', #MESSAGES['tm_description'],
                            provider_token = ukassa_token,
                            currency = 'RUB',
