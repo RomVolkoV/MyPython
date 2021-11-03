@@ -45,7 +45,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/main.py" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
-  <component name="RunManager" selected="Python.bot1">
+  <component name="RunManager" selected="Python.bot">
     <configuration name="PyPar_2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -153,8 +153,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.bot1" />
         <item itemvalue="Python.bot" />
+        <item itemvalue="Python.bot1" />
         <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.PyPar_2" />
         <item itemvalue="Python.PyPar_3" />
@@ -317,7 +317,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635874786187</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
+      <created>1635957224468</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1635957224469</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

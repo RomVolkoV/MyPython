@@ -14,82 +14,124 @@ shipping_options = [
 
 bot = telebot.TeleBot(bot_token)
 
-# def add_user(message):
-#     #print(chat_id)
-#     conn = sqlite3.connect(r'db/kokka.db')
-#     cursor = conn.cursor()
-#     langv = 'En'
-#     data_ = [message.chat.id, datetime.datetime.today().strftime("%Y-%m-%d-%H.%M.%S"), langv, message.from_user.first_name, message.from_user.last_name, message.from_user.username]
-#     cursor.execute("INSERT INTO USERS VALUES(?, ?, ?, ?, ?, ?);", data_)
-#     #cursor.execute(query, (chat_id))
-#     #result = cursor.fetchall()  # читаем все
-#     conn.commit()
-#     conn.close()
-#     return
+def chose_mess(message, Art_of_capsules):
+    msg = ""
+    langv = read_langv(message.chat.id)
+    if langv == 'En':
+        msg = msg + "\n" + MESSAGES[Art_of_capsules] + "\n"
+    elif langv == 'Ru':
+        msg = msg + "\n" + MESSAGES[Art_of_capsules] + "\n"
+    return msg
+
+def check_art(message, Art_of_capsules):
+    print("Art_of_capsules = ", Art_of_capsules)
+    #if Art_of_capsules == 'English' or Art_of_capsules == 'Russian':
+
+    langv = read_langv(message.chat.id)
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+    query = 'SELECT * FROM PRODUCTS WHERE Art = ?'
+    cursor.execute(query,  (Art_of_capsules,))
+    result = cursor.fetchall()  # читаем все
+    #print(result[0][1], print[0][3])
+    #print(result[1], result[3])
+    if result:
+        if langv == 'En':
+            msg = MESSAGES[Art_of_capsules] + "\n"
+        elif langv == 'Ru':
+            msg = MESSAGES[Art_of_capsules + '_ru'] + "\n"
+        bot.send_message(message.chat.id, msg)
+        bot.send_photo(message.chat.id, open('pic\\' + list(result[0])[1], 'rb'))
+        time.sleep(1)
+        bot.send_photo(message.chat.id, open('pic\\' + list(result[0])[3], 'rb'))
+    else:
+        if langv == 'En':
+            bot.send_message(message.chat.id, 'Enter the code please:')
+        if langv == 'Ru':
+            bot.send_message(message.chat.id, 'Введите пожалуйста код:')
+            #print("Нет такого цвета!")
+
+    #conn.commit()
+    conn.close()
+
+    return
+
+def add_user(message):
+    #print(chat_id)
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+    langv = 'En'
+    data_ = [message.chat.id, datetime.datetime.today().strftime("%Y-%m-%d-%H.%M.%S"), langv, message.from_user.first_name, message.from_user.last_name, message.from_user.username]
+    cursor.execute("INSERT INTO USERS VALUES(?, ?, ?, ?, ?, ?);", data_)
+    #cursor.execute(query, (chat_id))
+    #result = cursor.fetchall()  # читаем все
+    conn.commit()
+    conn.close()
+    return
 #
-# def read_user(message):
-#     #for item in message:
-#     #    print(item.text)
-#     #print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username,
-#     #      'написал: ', message.text, datetime.datetime.today().strftime("%d.%m.%Y %H:%M:%S"))
-#     conn = sqlite3.connect(r'db/kokka.db')
-#     cursor = conn.cursor()
-#     query = 'SELECT * FROM USERS WHERE User_id = ?'
-#     cursor.execute(query,  (message.chat.id,))
-#     result = cursor.fetchall()  # читаем все
-#     if result == []:
-#         add_user(message)
-#     conn.commit()
-#     conn.close()
-#     return
+def read_user(message):
+    #for item in message:
+    #    print(item.text)
+    #print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username,
+    #      'написал: ', message.text, datetime.datetime.today().strftime("%d.%m.%Y %H:%M:%S"))
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+    query = 'SELECT * FROM USERS WHERE User_id = ?'
+    cursor.execute(query,  (message.chat.id,))
+    result = cursor.fetchall()  # читаем все
+    if result == []:
+        add_user(message)
+    conn.commit()
+    conn.close()
+    return
 #
-# def update_user(chat_id, langv):
-#     conn = sqlite3.connect(r'db/kokka.db')
-#     cursor = conn.cursor()
-#     query = 'UPDATE USERS SET Langv = ? WHERE User_id = ?'
-#     cursor.execute(query, (langv, chat_id,))
-#     conn.commit()
-#     conn.close()
-#
-# def read_langv(chat_id):
-#     #print(chat_id)
-#     conn = sqlite3.connect(r'db/kokka.db')
-#     cursor = conn.cursor()
-#     query = 'SELECT * FROM USERS WHERE User_id = ?'
-#     cursor.execute(query,  (chat_id,))
-#     res = cursor.fetchall()  # читаем все
-#     result = list(res[0])[2]
-#     conn.commit()
-#     conn.close()
-#     return result
-#
-# def check_code(message, text):
-# #    print(text)
-#     conn = sqlite3.connect(r'db/kokka.db')
-#     cursor = conn.cursor()
-#     query = 'SELECT * FROM CODE_TAB WHERE Code = ?'
-#     cursor.execute(query, (text,))
-#     res = cursor.fetchall()  # читаем все
-#     conn.close()
-#     if res:
-#         kol = list(res[0])[1]
-#         #print(kol, type(kol))
-#         kol += 1
-#         conn = sqlite3.connect(r'db/kokka.db')
-#         cursor = conn.cursor()
-#         query = 'UPDATE CODE_TAB SET Count = ? WHERE Code = ?'
-#         cursor.execute(query, (kol, text,))
-#         conn.commit()
-#         conn.close()
-# #    print(res)
-#     conn = sqlite3.connect(r'db/kokka.db')
-#     cursor = conn.cursor()
-# #    print(text, message.from_user.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, datetime.datetime.today().strftime("%Y-%m-%d-%H.%M.%S"))
-#     data_ = [text, message.from_user.id, datetime.datetime.today().strftime("%Y-%m-%d-%H.%M.%S")]
-#     cursor.execute("INSERT INTO USER_TAB VALUES(?, ?, ?);", data_)
-#     conn.commit()
-#     conn.close()
-#     return (res)
+def update_user(chat_id, langv):
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+    query = 'UPDATE USERS SET Langv = ? WHERE User_id = ?'
+    cursor.execute(query, (langv, chat_id,))
+    conn.commit()
+    conn.close()
+
+def read_langv(chat_id):
+    #print(chat_id)
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+    query = 'SELECT * FROM USERS WHERE User_id = ?'
+    cursor.execute(query,  (chat_id,))
+    res = cursor.fetchall()  # читаем все
+    result = list(res[0])[2]
+    conn.commit()
+    conn.close()
+    return result
+
+def check_code(message, text):
+#    print(text)
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+    query = 'SELECT * FROM CODE_TAB WHERE Code = ?'
+    cursor.execute(query, (text,))
+    res = cursor.fetchall()  # читаем все
+    conn.close()
+    if res:
+        kol = list(res[0])[1]
+        #print(kol, type(kol))
+        kol += 1
+        conn = sqlite3.connect(r'db/kokka.db')
+        cursor = conn.cursor()
+        query = 'UPDATE CODE_TAB SET Count = ? WHERE Code = ?'
+        cursor.execute(query, (kol, text,))
+        conn.commit()
+        conn.close()
+#    print(res)
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+#    print(text, message.from_user.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, datetime.datetime.today().strftime("%Y-%m-%d-%H.%M.%S"))
+    data_ = [text, message.from_user.id, datetime.datetime.today().strftime("%Y-%m-%d-%H.%M.%S")]
+    cursor.execute("INSERT INTO USER_TAB VALUES(?, ?, ?);", data_)
+    conn.commit()
+    conn.close()
+    return (res)
 
 # @bot.message_handler(commands=['start'])
 # def command_start(message):
@@ -100,19 +142,19 @@ bot = telebot.TeleBot(bot_token)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-#    read_user(message)
-#    langv = read_langv(message.chat.id)
+    read_user(message)
+    langv = read_langv(message.chat.id)
     print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, ' написал start')
 #    save_stack(message.chat.id, 0) # сохраняем позицию для пользователя Позиция = 0
 #    start_pic = 'C:\Users\Roman\Desktop\kokka\kokkasun.jpg'
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
     start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
     start_menu.row('English', 'Russian')
-#    bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
-    # if langv == 'En':
-    # bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
-    # elif langv == 'Ru':
-    bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
+    bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
+    if langv == 'En':
+        bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
+    elif langv == 'Ru':
+        bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
 
 @bot.message_handler(commands=['terms'])
 def process_terms_command(message):
@@ -204,119 +246,73 @@ def got_payment(message):
                      parse_mode='Markdown')
 
 
-# @bot.message_handler(content_types = ['text'])
-# def send_text(message):
-#     print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, 'написал: ', message.text,datetime.datetime.today().strftime("%d.%m.%Y %H:%M:%S"))
-#     #    pos = read_stack(message.chat.id)
-# #    read_user(message)
-#     #langv = read_langv(message.chat.id)
-#     #print(langv)
-#     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-#     start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
-#     start_menu.row('English', 'Russian')
-#    bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
-    # if message.text == 'English':
-    #     update_user(message.chat.id, 'En')
-    #     bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
-    # if message.text == 'Russian':
-    #     update_user(message.chat.id, 'Ru')
-    #     bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
-    # langv = read_langv(message.chat.id)
-    # result = check_code(message, message.text)
-#    print(result, len(result))
-#     if result:
-#         for i in range(0, len(result)):
-#             code = list(result[i])[0]
-#             kol = list(result[i])[1] + 1
-#             art = list(result[i])[2]
-#             photo = list(result[i])[3]
-#             batch = list(result[i])[4]
-#             data_mfg = list(result[i])[5]
-#             data_exp = list(result[i])[6]
-#             barcode = list(result[i])[7]
-#             bc_pic = list(result[i])[8]
-#             fio = list(result[i])[9]
-#         print(code," ", kol, " ", art, " ", photo, " ", batch, " ", data_mfg, " ", data_exp, " ", barcode, " ", bc_pic, " ", fio)
-#
-#         if langv == 'En':
-#             bot.send_message(message.chat.id, 'Congratulations on your purchase dear friend!'+ '\n' +'Wait a moment, please, I`m checking you code...')
-#             msg = "Code " + code + ". Information: "
-#         elif langv == 'Ru':
-#             bot.send_message(message.chat.id, 'Поздравляем вас с покупкой!' + '\n' + 'Секундочку, я проверяю ваш код...')
-#             msg = "Код " + code + ". Информация: "
-#         time.sleep(3)
-#         if art == "Pearl":
-#             if langv == 'En':
-#                 msg = msg + "\n" + MESSAGES['Pearl'] + "\n"
-#             elif langv == 'Ru':
-#                 msg = msg + "\n" + MESSAGES['Pearl_ru'] + "\n"
-#         elif art == "Gold":
-#             if langv == 'En':
-#                 msg = msg + "\n" + MESSAGES['Gold'] + "\n"
-#             elif langv == 'Ru':
-#                 msg = msg + "\n" + MESSAGES['Gold_ru'] + "\n"
-#         elif art == 'Purple':
-#             if langv == 'En':
-#                 msg = msg + "\n" + MESSAGES['Purple'] + "\n"
-#             elif langv == 'Ru':
-#                 msg = msg + "\n" + MESSAGES['Purple_ru'] + "\n"
-#         elif art == "Green":
-#             if langv == 'En':
-#                 msg = msg + "\n" + MESSAGES['Green'] + "\n"
-#             elif langv == 'Ru':
-#                 msg = msg + "\n" + MESSAGES['Green_ru'] + "\n"
-#         elif art == "Pink":
-#             if langv == 'En':
-#                 msg = msg + "\n" + MESSAGES['Pink'] + "\n"
-#             elif langv == 'Ru':
-#                 msg = msg + "\n" + MESSAGES['Pink_ru'] + "\n"
-#         elif art == "White":
-#             if langv == 'En':
-#                 msg = msg + "\n" + MESSAGES['White'] + "\n"
-#             elif langv == 'Ru':
-#                 msg = msg + "\n" + MESSAGES['White_ru'] + "\n"
-#         elif art == "Blue":
-#             if langv == 'En':
-#                 msg = msg + "\n" + MESSAGES['Blue'] + "\n"
-#             elif langv == 'Ru':
-#                 msg = msg + "\n" + MESSAGES['Blue_ru'] + "\n"
-#         elif art == "Yellow":
-#             if langv == 'En':
-#                 msg = msg + "\n" + MESSAGES['Yellow'] + "\n"
-#             elif langv == 'Ru':
-#                 msg = msg + "\n" + MESSAGES['Yellow_ru'] + "\n"
-#         elif art == "Violet":
-#             if langv == 'En':
-#                 msg = msg + "\n" + MESSAGES['Violet'] + "\n"
-#             elif langv == 'Ru':
-#                 msg = msg + "\n" + MESSAGES['Violet_ru'] + "\n"
-#         if langv == 'En':
-#             msg = msg + "Batch - " + batch + "\n" + "MFG - " + data_mfg + "\n" + "EXP - " + data_exp + "\n"
-#         elif langv == 'Ru':
-#             msg = msg + "Серия - " + batch + "\n" + "Произведено - " + data_mfg + "\n" + "Годен до - " + data_exp + "\n"
-#         bot.send_message(message.chat.id, msg)
-#         time.sleep(2)
-#         bot.send_photo(message.chat.id, open('pic\\'+ photo, 'rb'))
-#         time.sleep(1)
-#         bot.send_photo(message.chat.id, open('pic\\' + bc_pic, 'rb'))
-#         if kol == 1:
-#             time.sleep(1)
-#             if langv == 'En':
-#                 msg_ = 'ATTENTION! This code is checked for the FIRST time!' + '\n' + 'No one else has seen him!' + '\n'
-#                 msg_ = msg_ + 'Save this code to participate in the KokkaSun promotions!'
-#             elif langv == 'Ru':
-#                 msg_ = 'ВНИМАНИЕ! Этот код проверяется впервые!' + '\n' + 'Никто не вводил его до вас!' + '\n' + 'Поздравляем вас с приобретением оригинального продукта КоккаSun.' + '\n'
-#                 msg_ = msg_ + 'Сохраните этот код для дальнейшего участия в акциях КоккаSun!'
-#             bot.send_message(message.chat.id, msg_)
-#         else:
-#             time.sleep(1)
-#             if langv == 'En':
-#                 bot.send_message(message.chat.id, "The code was checked " + str(kol) + " times")
-#             elif langv == 'Ru':
-#                 bot.send_message(message.chat.id, "Код был проверен " + str(kol) + " раз")
-#             #bot.send_sticker(message.chat.id,'CAACAgIAAxkBAAMfX6l2gHwi4oltB9tGTRbqo8jzr3sAAhQAA8A2TxOtZZnkuTD2Ph4E')
-#         #else:
-#         #    bot.send_message(message.chat.id, "The code was checked more than 10 times")
+@bot.message_handler(content_types = ['text'])
+def send_text(message):
+    print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, 'написал: ', message.text,datetime.datetime.today().strftime("%d.%m.%Y %H:%M:%S"))
+    read_user(message)
+    start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
+    start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
+    start_menu.row('English', 'Russian')
+    bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
+    if message.text == 'English':
+        update_user(message.chat.id, 'En')
+        bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
+    if message.text == 'Russian':
+        update_user(message.chat.id, 'Ru')
+        bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
+
+    langv = read_langv(message.chat.id)
+
+    result = check_code(message, message.text)
+    print(result, len(result))
+    if result:
+        for i in range(0, len(result)):
+            code = list(result[i])[0]
+            kol = list(result[i])[1] + 1
+            art = list(result[i])[2]
+            photo = list(result[i])[3]
+            batch = list(result[i])[4]
+            data_mfg = list(result[i])[5]
+            data_exp = list(result[i])[6]
+            barcode = list(result[i])[7]
+            bc_pic = list(result[i])[8]
+            fio = list(result[i])[9]
+        print(code," ", kol, " ", art, " ", photo, " ", batch, " ", data_mfg, " ", data_exp, " ", barcode, " ", bc_pic, " ", fio)
+        if langv == 'En':
+            bot.send_message(message.chat.id, 'Congratulations on your purchase dear friend!'+ '\n' +'Wait a moment, please, I`m checking you code...')
+            msg = "Code " + code + ". Information: "
+        elif langv == 'Ru':
+            bot.send_message(message.chat.id, 'Поздравляем вас с покупкой!' + '\n' + 'Секундочку, я проверяю ваш код...')
+            msg = "Код " + code + ". Информация: "
+        time.sleep(3)
+        msg = msg + chose_mess(message, art)
+        if langv == 'En':
+            msg = msg + "Batch - " + batch + "\n" + "MFG - " + data_mfg + "\n" + "EXP - " + data_exp + "\n"
+        elif langv == 'Ru':
+            msg = msg + "Серия - " + batch + "\n" + "Произведено - " + data_mfg + "\n" + "Годен до - " + data_exp + "\n"
+        bot.send_message(message.chat.id, msg)
+        time.sleep(2)
+        bot.send_photo(message.chat.id, open('pic\\'+ photo, 'rb'))
+        time.sleep(1)
+        bot.send_photo(message.chat.id, open('pic\\' + bc_pic, 'rb'))
+        if kol == 1:
+            time.sleep(1)
+            if langv == 'En':
+                msg_ = 'ATTENTION! This code is checked for the FIRST time!' + '\n' + 'No one else has seen him!' + '\n'
+                msg_ = msg_ + 'Save this code to participate in the KokkaSun promotions!'
+            elif langv == 'Ru':
+                msg_ = 'ВНИМАНИЕ! Этот код проверяется впервые!' + '\n' + 'Никто не вводил его до вас!' + '\n' + 'Поздравляем вас с приобретением оригинального продукта КоккаSun.' + '\n'
+                msg_ = msg_ + 'Сохраните этот код для дальнейшего участия в акциях КоккаSun!'
+            bot.send_message(message.chat.id, msg_)
+        else:
+            time.sleep(1)
+            if langv == 'En':
+                bot.send_message(message.chat.id, "The code was checked " + str(kol) + " times")
+            elif langv == 'Ru':
+                bot.send_message(message.chat.id, "Код был проверен " + str(kol) + " раз")
+            #bot.send_sticker(message.chat.id,'CAACAgIAAxkBAAMfX6l2gHwi4oltB9tGTRbqo8jzr3sAAhQAA8A2TxOtZZnkuTD2Ph4E')
+        #else:
+        #    bot.send_message(message.chat.id, "The code was checked more than 10 times")
 #             #bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAMfX6l2gHwi4oltB9tGTRbqo8jzr3sAAhQAA8A2TxOtZZnkuTD2Ph4E')
 # #-------------------------------------------
 #     elif message.text.lower() == 'pearl' or message.text.lower() == 'pear' or message.text.lower() == 'pea' or message.text.lower() == 'pe'\
@@ -341,11 +337,8 @@ def got_payment(message):
 #         bot.send_photo(message.chat.id, open('pic\\' + '8803720436652.png', 'rb'))
 # # -------------------------------------------
 
-def check_art(Art):
 
 
-for item in range(1, len(color_capsules)):
-    if item
 
 #     elif message.text.lower() == 'pink' or message.text.lower() == 'pin' or message.text.lower() == 'pi':
 #         if langv == 'En':
@@ -440,27 +433,13 @@ for item in range(1, len(color_capsules)):
 #         bot.send_photo(message.chat.id, open('pic\\' + '8803720436737.png', 'rb'))
 # # -------------------------------------------
 #
-#     else:
-#         if langv == 'En':
-#             bot.send_message(message.chat.id, 'Enter the code please:')
-#         if langv == 'Ru':
-#             bot.send_message(message.chat.id, 'Введите пожалуйста код:')
+    else:
+        print("прошел")
+        check_art(message, message.text)
+
 #
 #
-
-    #bot.send_sticker(message.chat.id,'CAACAgIAAxkBAAMfX6l2gHwi4oltB9tGTRbqo8jzr3sAAhQAA8A2TxOtZZnkuTD2Ph4E')
-
-
-
-# узнать ид стикера
-# @bot.message_handler(content_types = ['sticker'])
-# def send_sticker(message):
-#     print(message)
-#     #bot.send_message(message.chat.id, print(message))
-#     bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIHxmGA_pRspScYXcgU21BTRi3PKcWAAALvDAACfhQZS_YobThdmR5zIQQ')
-
-# bot.infinity_polling(skip_pending = True)
-
+#
 
 
 # bot.skip_pending = True

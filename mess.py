@@ -14,6 +14,14 @@ start_message_ru = '''\
 Добро пожаловать в KokkaSun Cosmetics бот.
 '''
 
+Russian_ru = '''\
+Добро пожаловать в KokkaSun Cosmetics бот.
+'''
+
+English = '''\
+Welcome to KokkaSun Cosmetics Bot.
+'''
+
 pre_buy_demo_alert = '''\
 Тестовый режим, для оплаты нужно использовать тестовую карточку с номером 1111 1111 1111 1026 
 дата действия 2021/12 
@@ -138,6 +146,8 @@ MESSAGES = {
     'start_message_ru': start_message_ru,
     'help_message': help_message,
     'help_message_ru': help_message_ru,
+    'Russian_ru': Russian_ru,
+    'English': English,
     'pre_buy_demo_alert': pre_buy_demo_alert,
     'terms': terms,
     'tm_title': tm_title,
