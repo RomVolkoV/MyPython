@@ -4,10 +4,9 @@ import time
 import datetime
 from mess import MESSAGES
 from telebot.types import LabeledPrice, ShippingOption
+from config import bot_token, ukassa_token
 
-bot_token = '1833545970:AAG9lOO9PZ8Yur3gu--N8GTcQkNc4ALg8dI'
-ukassa_token = '381764678:TEST:30583'
-prices = [LabeledPrice(label='KokkaSun capsules', amount=750), LabeledPrice('Gift wrapping', 500)]
+prices = [LabeledPrice(label='KokkaSun capsules', amount=7500), LabeledPrice('Gift wrapping', 500)]
 shipping_options = [
     ShippingOption(id='instant', title='KokkaSun capsules').add_price(LabeledPrice('Capsules', 900)),
     ShippingOption(id='pickup', title='Local pickup').add_price(LabeledPrice('Pickup', 300))]
@@ -273,6 +272,5 @@ def send_text(message):
         check_art(message, message.text)
 
 if __name__ == '__main__':
-    bot.polling()
-# bot.skip_pending = True
-# bot.polling(none_stop=True)
+    bot.skip_pending = True
+    bot.polling(none_stop=True)
