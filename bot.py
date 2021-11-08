@@ -3,7 +3,7 @@ import sqlite3
 import time
 import datetime
 from mess import MESSAGES
-from telebot.types import LabeledPrice, ShippingOption
+from telebot.types import LabeledPrice, ShippingOption, InlineKeyboardMarkup, InlineKeyboardButton
 from config import bot_token, ukassa_token
 
 prices = [LabeledPrice(label='KokkaSun capsules', amount=7500), LabeledPrice('Gift wrapping', 500)]
@@ -19,7 +19,7 @@ def choose_mess(message, Art_of_capsules):
     if langv == 'En':
         msg = msg + "\n" + MESSAGES[Art_of_capsules] + "\n"
     elif langv == 'Ru':
-        msg = msg + "\n" + MESSAGES[Art_of_capsules] + "\n"
+        msg = msg + "\n" + MESSAGES[Art_of_capsules + "_ru"] + "\n"
     return msg
 
 def check_art(message, Art_of_capsules):
@@ -43,6 +43,12 @@ def check_art(message, Art_of_capsules):
         bot.send_photo(message.chat.id, open('pic\\' + list(result[0])[1], 'rb'))
         time.sleep(1)
         bot.send_photo(message.chat.id, open('pic\\' + list(result[0])[3], 'rb'))
+
+        markup = telebot.types.InlineKeyboardMarkup()
+        button = telebot.types.InlineKeyboardButton(text='Положить в корзину', callback_data="cb_basket")
+        markup.add(button)
+        bot.send_message(message.chat.id, "Для покупки нажмите:", reply_markup=markup)
+
     else:
         if langv == 'En':
             bot.send_message(message.chat.id, 'Enter the code please:')
@@ -123,6 +129,13 @@ def check_code(message, text):
     conn.close()
     return (res)
 
+# def gen_markup():
+#     markup = InlineKeyboardMarkup()
+#     #markup.row_width = 2
+#     markup.add(InlineKeyboardButton("Yes", callback_data="cb_basket"))
+# #                               InlineKeyboardButton("No", callback_data="cb_no"))
+#     #return markup
+
 @bot.message_handler(commands=['start'])
 def start_message(message):
     read_user(message)
@@ -131,13 +144,23 @@ def start_message(message):
 #    save_stack(message.chat.id, 0) # сохраняем позицию для пользователя Позиция = 0
 #    start_pic = 'C:\Users\Roman\Desktop\kokka\kokkasun.jpg'
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-    start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
-    start_menu.row('English', 'Russian')
+    start_menu.row('Blue', 'Gold', 'Green', 'Pearl')
+    start_menu.row('Pink', 'Purple', 'Rose', 'Violet')
+    start_menu.row('White', 'Yellow', 'Eng', 'Rus')
     bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
     if langv == 'En':
         bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
     elif langv == 'Ru':
         bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
+
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_query(call):
+    if call.data == "cb_basket":
+        bot.answer_callback_query(call.id, "добавить в корзину")
+    elif call.data == "cb_no":
+        bot.answer_callback_query(call.id, "Answer is No")
+
 
 @bot.message_handler(commands=['terms'])
 def process_terms_command(message):
@@ -152,16 +175,14 @@ def help_message(message):
 #    read_user(message)
     print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username,
           ' написал help')
-#    langv = read_langv(message.chat.id)
+    langv = read_langv(message.chat.id)
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
     start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
     start_menu.row('English', 'Russian')
-    #start_menu.add('Blue','Gold','Green','Pearl','Pink','Purple', 'Rose', 'Violet', 'White','Yellow')
-    #bot.send_message(message.chat.id, MESSAGES['help_message'])
-    # if langv == 'En':
-    #     bot.send_message(message.chat.id, MESSAGES['help_message'], reply_markup=start_menu)
-    # elif langv == 'Ru':
-    bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+    if langv == 'En':
+        bot.send_message(message.chat.id, MESSAGES['help_message'], reply_markup=start_menu)
+    elif langv == 'Ru':
+        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
 
 @bot.message_handler(commands=['pay'])
 def process_buy_command(message):
