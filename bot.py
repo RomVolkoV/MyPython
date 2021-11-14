@@ -45,9 +45,9 @@ def check_art(message, Art_of_capsules):
         bot.send_photo(message.chat.id, open('pic\\' + list(result[0])[3], 'rb'))
 
         markup = telebot.types.InlineKeyboardMarkup()
-        button = telebot.types.InlineKeyboardButton(text='Положить в корзину', callback_data="cb_basket")
+        button = telebot.types.InlineKeyboardButton(text='Положить в корзину!', callback_data="cb_" + Art_of_capsules)
         markup.add(button)
-        bot.send_message(message.chat.id, "Для покупки нажмите:", reply_markup=markup)
+        bot.send_message(message.chat.id, "Для покупки капсул...", reply_markup=markup)
 
     else:
         if langv == 'En':
@@ -155,11 +155,18 @@ def start_message(message):
 
 
 @bot.callback_query_handler(func=lambda call: True)
-def callback_query(call):
-    if call.data == "cb_basket":
-        bot.answer_callback_query(call.id, "добавить в корзину")
-    elif call.data == "cb_no":
-        bot.answer_callback_query(call.id, "Answer is No")
+#bot.callback_query_handler(content_types=['successful_payment'])
+def callback_query(message, call):
+    bot.answer_callback_query(call.id, "Капсулы в корзине!")
+    # Кладем в корзину капсулы.
+    print(call.data)
+    # put_to_basket(call.data,)
+    if call.data == "cb_Pearl":
+
+        bot.answer_callback_query(call.id, "Pearl-капсулы в корзине")
+    elif call.data == "cb_Green":
+        bot.answer_callback_query(call.id, "Green-капсулы в корзине")
+
 
 
 @bot.message_handler(commands=['terms'])
