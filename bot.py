@@ -6,7 +6,8 @@ from mess import MESSAGES
 from telebot.types import LabeledPrice, ShippingOption, InlineKeyboardMarkup, InlineKeyboardButton
 from config import bot_token, ukassa_token
 
-prices = [LabeledPrice(label='KokkaSun capsules', amount=7500), LabeledPrice('Gift wrapping', 500)]
+prices = [LabeledPrice(label='KokkaSun Pearls Capsules', amount=75000)]
+#prices = [LabeledPrice(label='KokkaSun capsules', amount=7500), LabeledPrice('Подарочная упаковка', 500)]
 shipping_options = [
     ShippingOption(id='instant', title='KokkaSun capsules').add_price(LabeledPrice('Capsules', 900)),
     ShippingOption(id='pickup', title='Local pickup').add_price(LabeledPrice('Pickup', 300))]
@@ -216,6 +217,7 @@ def process_buy_command(message):
                            prices = prices,
                            start_parameter = 'time-machine-example',
                            invoice_payload = '12345')
+    print("Цена - ", prices)
 
 @bot.shipping_query_handler(func=lambda query: True)
 def shipping(shipping_query):
