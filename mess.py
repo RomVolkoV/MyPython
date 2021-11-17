@@ -38,7 +38,7 @@ terms_ru = '''\
 '''
 tm_description = 'Капсулы KokkaSun'
 
-tm_title = 'Покупка'
+tm_title = 'Внимание, покупка'
 
 Pearl = '''\
 KokkaSun Pearl 

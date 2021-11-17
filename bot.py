@@ -6,11 +6,11 @@ from mess import MESSAGES
 from telebot.types import LabeledPrice, ShippingOption, InlineKeyboardMarkup, InlineKeyboardButton
 from config import bot_token, ukassa_token
 
-prices = [LabeledPrice(label='KokkaSun Pearls Capsules', amount=75000)]
+prices = [LabeledPrice(label='KokkaSun Pearl Capsules', amount=75000)]
 #prices = [LabeledPrice(label='KokkaSun capsules', amount=7500), LabeledPrice('Подарочная упаковка', 500)]
 shipping_options = [
-    ShippingOption(id='instant', title='KokkaSun capsules').add_price(LabeledPrice('Capsules', 900)),
-    ShippingOption(id='pickup', title='Local pickup').add_price(LabeledPrice('Pickup', 300))]
+    ShippingOption(id='instant', title='KokkaSun capsules').add_price(LabeledPrice('Capsules', 90000)),
+    ShippingOption(id='pickup', title='Local pickup').add_price(LabeledPrice('Pickup', 30000))]
 
 bot = telebot.TeleBot(bot_token)
 
@@ -205,18 +205,18 @@ def process_buy_command(message):
 #        print(ukassa_token)
         #bot.send_invoice()
     bot.send_invoice(message.chat.id,
-                           title = 'title', #MESSAGES['tm_title'],
-                           description = 'descr', #MESSAGES['tm_description'],
+                           title = MESSAGES['tm_title'],
+                           description = MESSAGES['tm_description'],
                            provider_token = ukassa_token,
                            currency = 'RUB',
                            #photo_url=TIME_MACHINE_IMAGE_URL,
                            #photo_height=512,  # !=0/None, иначе изображение не покажется
                            #photo_width=512,
                            #photo_size=512,
-                           is_flexible = False,  # True если конечная цена зависит от способа доставки
+                           is_flexible = True,  # True если конечная цена зависит от способа доставки
                            prices = prices,
-                           start_parameter = 'time-machine-example',
-                           invoice_payload = '12345')
+                           start_parameter = 'kokkasun-caps',
+                           invoice_payload = '00007')
     print("Цена - ", prices)
 
 @bot.shipping_query_handler(func=lambda query: True)
@@ -234,8 +234,9 @@ def checkout(pre_checkout_query):
 @bot.message_handler(content_types=['successful_payment'])
 def got_payment(message):
     bot.send_message(message.chat.id,
-                     'Hoooooray! Thanks for payment! We will proceed your order for `{} {}` as fast as possible! '
-                     'Stay in touch.\n\nUse /buy again to get a Time Machine for your friend!'.format(
+                     'Благодарим за оплату. Ваш заказ на сумму `{} {}` уже в обработке! '
+                     'Наши менеджеры свяжутся с Вами в ближайшее время!'
+                     'Будьте на связи.\n\n'.format(
                          message.successful_payment.total_amount / 100, message.successful_payment.currency),
                      parse_mode='Markdown')
 
