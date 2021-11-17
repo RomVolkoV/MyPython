@@ -25,6 +25,7 @@ def choose_mess(message, Art_of_capsules):
 
 def check_art(message, Art_of_capsules):
     print("Art_of_capsules = ", Art_of_capsules)
+    msg = ""
     #if Art_of_capsules == 'English' or Art_of_capsules == 'Russian':
 
     langv = read_langv(message.chat.id)
@@ -37,9 +38,9 @@ def check_art(message, Art_of_capsules):
     #print(result[1], result[3])
     if result:
         if langv == 'En':
-            msg = MESSAGES[Art_of_capsules] + "\n"
+            msg = msg +"\n" + MESSAGES[Art_of_capsules] + "\n"
         elif langv == 'Ru':
-            msg = MESSAGES[Art_of_capsules + '_ru'] + "\n"
+            msg = msg +"\n" + MESSAGES[Art_of_capsules + '_ru'] + "\n"
         bot.send_message(message.chat.id, msg)
         bot.send_photo(message.chat.id, open('pic\\' + list(result[0])[1], 'rb'))
         time.sleep(1)
@@ -56,7 +57,7 @@ def check_art(message, Art_of_capsules):
         if langv == 'Ru':
             bot.send_message(message.chat.id, 'Введите пожалуйста код:')
     conn.close()
-    return
+    return msg
 
 def add_user(message):
     #print(chat_id)
@@ -279,6 +280,7 @@ def send_text(message):
             bot.send_message(message.chat.id, 'Поздравляем вас с покупкой!' + '\n' + 'Секундочку, я проверяю ваш код...')
             msg = "Код " + code + ". Информация: "
         time.sleep(2)
+        #msg = msg + check_art(message,art)
         msg = msg + choose_mess(message, art)
         if langv == 'En':
             msg = msg + "Batch - " + batch + "\n" + "MFG - " + data_mfg + "\n" + "EXP - " + data_exp + "\n"
@@ -305,7 +307,7 @@ def send_text(message):
             elif langv == 'Ru':
                 bot.send_message(message.chat.id, "Код был проверен " + str(kol) + " раз")
     else:
-        print("прошел")
+        #print("прошел")
         check_art(message, message.text)
 
 if __name__ == '__main__':
