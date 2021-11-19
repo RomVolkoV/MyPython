@@ -74,6 +74,7 @@ def add_user(message):
 def put_to_basket(call_data):
     Articule = call_data.split('_')[1]
     Id = int(call_data.split(':')[1])
+    print ("Art =",  Articule, "User_id =", Id)
 
 
 
