@@ -66,8 +66,6 @@ def add_user(message):
     langv = 'En'
     data_ = [message.chat.id, datetime.datetime.today().strftime("%Y-%m-%d-%H.%M.%S"), langv, message.from_user.first_name, message.from_user.last_name, message.from_user.username]
     cursor.execute("INSERT INTO USERS VALUES(?, ?, ?, ?, ?, ?);", data_)
-    #cursor.execute(query, (chat_id))
-    #result = cursor.fetchall()  # читаем все
     conn.commit()
     conn.close()
     return
