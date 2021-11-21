@@ -81,7 +81,8 @@ def put_to_basket(call_data):
     query = "SELECT * FROM PRODUCT WHERE Art = ?"
     cursor.execute(query, (Articule))
     result_art = cursor.fetchall()
-    print(result_art)
+    Amount = int(list(result_art[0][3]))
+    print(result_art, list(result_art[0][3]))
     #Прочитать, что уже есть в корзине у этого покупателя
 
     query = "SELECT * FROM Basket WHERE User_id = ? and Art = ?"
@@ -89,7 +90,7 @@ def put_to_basket(call_data):
     result = cursor.fetchall()
     if result ==[]:
         print("В корзине нет этого Артикула ", result)
-        data_ = [Id, Articule, 1, ]
+        data_ = [Id, Articule, 1, Amount]
 
 
 def read_user(message):
