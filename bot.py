@@ -81,7 +81,7 @@ def put_to_basket(call_data):
     query = "SELECT * FROM PRODUCTS WHERE Art = ?"
     cursor.execute(query, (Articule,))
     result_art = cursor.fetchall()
-    Amount = list(result_art[0][3])
+    Amount = result_art[0][4]
     print(result_art, result_art[0][4])
     #Прочитать, что уже есть в корзине у этого покупателя
 
