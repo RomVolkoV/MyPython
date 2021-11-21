@@ -74,8 +74,22 @@ def add_user(message):
 def put_to_basket(call_data):
     Articule = call_data.split('_')[1]
     Id = int(call_data.split(':')[1])
-    print ("Art =",  Articule, "User_id =", Id)
+    #Прочитаем стоимость этого Артикула
+    #print ("Art =",  Articule, "User_id =", Id)
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+    query = "SELECT * FROM PRODUCT WHERE Art = ?"
+    cursor.execute(query, (Articule))
+    result_art = cursor.fetchall()
+    print(result_art)
+    #Прочитать, что уже есть в корзине у этого покупателя
 
+    query = "SELECT * FROM Basket WHERE User_id = ? and Art = ?"
+    cursor.execute(query, (Id, Articule))
+    result = cursor.fetchall()
+    if result ==[]:
+        print("В корзине нет этого Артикула ", result)
+        data_ = [Id, Articule, 1, ]
 
 
 def read_user(message):
