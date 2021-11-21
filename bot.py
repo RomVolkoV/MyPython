@@ -81,7 +81,7 @@ def put_to_basket(call_data):
     query = "SELECT * FROM PRODUCTS WHERE Art = ?"
     cursor.execute(query, (Articule,))
     result_art = cursor.fetchall()
-    Amount = list(result_art[0][3])
+    Amount = result_art[0][4]
     print(result_art, result_art[0][4])
     #Прочитать, что уже есть в корзине у этого покупателя
 
@@ -90,8 +90,20 @@ def put_to_basket(call_data):
     result = cursor.fetchall()
     if result ==[]:
         print("В корзине нет этого Артикула ", result)
+        query = "INSERT INTO BASKET VALUES(?, ?, ?, ?)"
         data_ = [Id, Articule, 1, Amount]
+        cursor.execute(query, data_)
+        conn.commit()
 
+    else:
+        print("В корзине уже есть этот Артикул ", result[0][2])
+        Kol_ = result[0][2] + 1
+        query = "UPDATE BASKET SET Kol = ? WHERE Art = ?"
+        data_ = [Kol_, Articule]
+        cursor.execute(query, data_)
+        conn.commit()
+    bot.send_message(Id, "Капсулы добавлены в корзину. Вы можете продолжить выбирать товары или перейти в корзину для покупки!")
+    conn.close()
 
 def read_user(message):
      #print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username,
@@ -262,7 +274,7 @@ def send_text(message):
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
     start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
     start_menu.row('English', 'Russian')
-    bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
+    #bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
     if message.text == 'English':
         update_user(message.chat.id, 'En')
         bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
@@ -293,7 +305,7 @@ def send_text(message):
         elif langv == 'Ru':
             bot.send_message(message.chat.id, 'Поздравляем вас с покупкой!' + '\n' + 'Секундочку, я проверяю ваш код...')
             msg = "Код " + code + ". Информация: "
-        time.sleep(2)
+        time.sleep(1)
         #msg = msg + check_art(message,art)
         msg = msg + choose_mess(message, art)
         if langv == 'En':
