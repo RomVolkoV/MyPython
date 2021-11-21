@@ -24,7 +24,7 @@ def choose_mess(message, Art_of_capsules):
     return msg
 
 def check_art(message, Art_of_capsules):
-    print("Art_of_capsules = ", Art_of_capsules)
+    print("Art_of_capsules = ", Art_of_capsules.strip())
     msg = ""
     #if Art_of_capsules == 'English' or Art_of_capsules == 'Russian':
 
@@ -75,21 +75,22 @@ def put_to_basket(call_data):
     Articule = call_data.split('_')[1]
     Id = int(call_data.split(':')[1])
     #Прочитаем стоимость этого Артикула
-    #print ("Art =",  Articule, "User_id =", Id)
+    print ("Art =",  Articule, "User_id =", Id)
     conn = sqlite3.connect(r'db/kokka.db')
     cursor = conn.cursor()
-    query = "SELECT * FROM PRODUCT WHERE Art = ?"
-    cursor.execute(query, (Articule))
+    query = "SELECT * FROM PRODUCTS WHERE Art = ?"
+    cursor.execute(query, (Articule,))
     result_art = cursor.fetchall()
-    print(result_art)
+    Amount = list(result_art[0][3])
+    print(result_art, result_art[0][4])
     #Прочитать, что уже есть в корзине у этого покупателя
 
-    query = "SELECT * FROM Basket WHERE User_id = ? and Art = ?"
+    query = "SELECT * FROM BASKET WHERE User_id = ? and Art = ?"
     cursor.execute(query, (Id, Articule))
     result = cursor.fetchall()
     if result ==[]:
         print("В корзине нет этого Артикула ", result)
-        data_ = [Id, Articule, 1, ]
+        data_ = [Id, Articule, 1, Amount]
 
 
 def read_user(message):
@@ -180,7 +181,7 @@ def start_message(message):
 def callback_query(call):
     bot.answer_callback_query(call.id, "Капсулы в корзине!")
     # Кладем в корзину капсулы.
-    print(call.data)
+    #print(call.data)
     put_to_basket(call.data)
     if call.data == "cb_Pearl":
 
@@ -201,8 +202,8 @@ def process_terms_command(message):
 @bot.message_handler(commands=['help'])
 def help_message(message):
 #    read_user(message)
-    print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username,
-          ' написал help')
+    #print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username,
+#         ' написал help')
     langv = read_langv(message.chat.id)
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
     start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
@@ -272,7 +273,7 @@ def send_text(message):
     langv = read_langv(message.chat.id)
 
     result = check_code(message, message.text)
-    print(result, len(result))
+    #print(result, len(result))
     if result:
         for i in range(0, len(result)):
             code = list(result[i])[0]
