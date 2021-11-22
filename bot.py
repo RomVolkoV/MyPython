@@ -179,9 +179,9 @@ def start_message(message):
 #    save_stack(message.chat.id, 0) # сохраняем позицию для пользователя Позиция = 0
 #    start_pic = 'C:\Users\Roman\Desktop\kokka\kokkasun.jpg'
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-    start_menu.row('Blue', 'Gold', 'Green', 'Pearl')
-    start_menu.row('Pink', 'Purple', 'Rose', 'Violet')
-    start_menu.row('White', 'Yellow', 'Eng', 'Rus')
+    start_menu.row('Green', 'Pearl', 'Pink', 'Purple')
+    start_menu.row('Violet', 'Grape', 'Gold')
+    start_menu.row('Eng', 'Rus', 'Корзина')
     bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
     if langv == 'En':
         bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
@@ -218,8 +218,8 @@ def help_message(message):
 #         ' написал help')
     langv = read_langv(message.chat.id)
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-    start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
-    start_menu.row('English', 'Russian')
+    #start_menu.add('Для лица', 'Для тела', 'Для волос')
+    start_menu.row('Eng', 'Rus')
     if langv == 'En':
         bot.send_message(message.chat.id, MESSAGES['help_message'], reply_markup=start_menu)
     elif langv == 'Ru':
@@ -272,13 +272,14 @@ def send_text(message):
     print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, 'написал: ', message.text,datetime.datetime.today().strftime("%d.%m.%Y %H:%M:%S"))
     read_user(message)
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-    start_menu.add('Blue', 'Gold', 'Green', 'Pearl', 'Pink', 'Purple', 'Rose', 'Violet', 'White', 'Yellow')
-    start_menu.row('English', 'Russian')
+    start_menu.row('Blue', 'Gold', 'Green', 'Pearl')
+    start_menu.row('Pink', 'Purple', 'Rose', 'Violet')
+    start_menu.row('White', 'Yellow', 'Eng', 'Rus')
     #bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
-    if message.text == 'English':
+    if message.text == 'Eng':
         update_user(message.chat.id, 'En')
         bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
-    if message.text == 'Russian':
+    if message.text == 'Rus':
         update_user(message.chat.id, 'Ru')
         bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
 
