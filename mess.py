@@ -14,6 +14,9 @@ start_message_ru = '''\
 Добро пожаловать в KokkaSun Cosmetics бот.
 '''
 
+text_message_ru = '''Вы ввели
+'''
+
 Russian_ru = '''\
 Добро пожаловать в KokkaSun Cosmetics бот.
 '''
@@ -144,6 +147,7 @@ successful_payment = '''
 MESSAGES = {
     'start_message': start_message,
     'start_message_ru': start_message_ru,
+    'text_message_ru': text_message_ru,
     'help_message': help_message,
     'help_message_ru': help_message_ru,
     'Russian_ru': Russian_ru,
