@@ -19,6 +19,15 @@ bot = telebot.TeleBot(bot_token)
 #     msg = msg + "\n" + MESSAGES[Art_of_capsules + "_ru"] + "\n"
 #     return msg
 
+def save_stack(chat_id, num):
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+    query = 'UPDATE USERS SET Pos = ? WHERE User_id = ?'
+    cursor.execute(query, (num, chat_id))
+    conn.commit()
+    conn.close()
+    #print('Update', chat_id, '_', num)
+
 def check_art(message, Art_of_capsules):
     print("Art_of_capsules = ", Art_of_capsules.strip())
     msg = ""
@@ -34,11 +43,8 @@ def check_art(message, Art_of_capsules):
     #print(result[1], result[3])
     if result:
         #msg = msg +"\n" + MESSAGES[Art_of_capsules + '_ru'] + "\n"
-        #bot.send_message(message.chat.id, msg)
+        bot.send_message(message.chat.id, MESSAGES[Art_of_capsules + '_ru'])
         bot.send_photo(message.chat.id, open('pic\\' + list(result[0])[1], 'rb'))
-        time.sleep(1)
-        bot.send_photo(message.chat.id, open('pic\\' + list(result[0])[3], 'rb'))
-
         markup = telebot.types.InlineKeyboardMarkup()
         button = telebot.types.InlineKeyboardButton(text='Положить в корзину!', callback_data="cb_" + Art_of_capsules + "_MCI:"+ str(message.chat.id))
         markup.add(button)
@@ -88,8 +94,8 @@ def put_to_basket(call_data):
         print("В корзине уже есть этот Артикул ", result[0][2])
         Kol_ = result[0][2] + 1
         Amount = Kol_ * Price
-        query = "UPDATE BASKET SET Kol = ?, Amount = ? WHERE Art = ?"
-        data_ = [Kol_, Amount, Articule]
+        query = "UPDATE BASKET SET Kol = ?, Amount = ? WHERE Art = ? and User_id = ?"
+        data_ = [Kol_, Amount, Articule, Id]
         cursor.execute(query, data_)
         conn.commit()
     bot.send_message(Id, "Капсулы добавлены в корзину. Вы можете продолжить выбирать товары или перейти в корзину для покупки!")
@@ -118,6 +124,7 @@ def read_basket(message):
                                           "Чтобы удалить капсулы из корзины вместо количества введите 0")
     else:
         bot.send_message(message.chat.id, "В корзине пока пусто!")
+    return item
 
 def read_user(message):
     conn = sqlite3.connect(r'db/kokka.db')
@@ -186,14 +193,14 @@ def check_code(message, text):
 @bot.message_handler(commands=['start'])
 def start_message(message):
     read_user(message)
-    #langv = read_langv(message.chat.id)
     print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, ' написал start')
-#    save_stack(message.chat.id, 0) # сохраняем позицию для пользователя Позиция = 0
-#    start_pic = 'C:\Users\Roman\Desktop\kokka\kokkasun.jpg'
+    # сохраняем позицию для пользователя Позиция = 1
+    save_stack(message.chat.id, 1)
+
+    kol_in_basket = read_basket(message) # Кооличество позиций в корзине
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-    start_menu.row('Green', 'Pearl', 'Pink', 'Purple')
-    start_menu.row('Violet', 'Grape', 'Gold')
-    start_menu.row('Корзина')
+    start_menu.row('Для лица', 'Вокруг глаз', 'Для тела', 'Для волос')
+    start_menu.row('Корзина(' +  str(kol_in_basket) + ')', 'Доставка', 'О нас')
     bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
     bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
 
