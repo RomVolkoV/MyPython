@@ -69,7 +69,7 @@ def put_to_basket(call_data):
     query = "SELECT * FROM PRODUCTS WHERE Art = ?"
     cursor.execute(query, (Articule,))
     result_art = cursor.fetchall()
-    Amount = result_art[0][4]
+    Price = result_art[0][4]
     print(result_art, result_art[0][4])
     #Прочитать, что уже есть в корзине у этого покупателя
 
@@ -79,13 +79,14 @@ def put_to_basket(call_data):
     if result ==[]:
         print("В корзине нет этого Артикула ", result)
         query = "INSERT INTO BASKET VALUES(?, ?, ?, ?)"
-        data_ = [Id, Articule, 1, Amount]
+        data_ = [Id, Articule, 1, Price]
         cursor.execute(query, data_)
         conn.commit()
 
     else:
         print("В корзине уже есть этот Артикул ", result[0][2])
         Kol_ = result[0][2] + 1
+        Amount = Kol_ * Price
         query = "UPDATE BASKET SET Kol = ? WHERE Art = ?"
         data_ = [Kol_, Articule]
         cursor.execute(query, data_)
