@@ -43,7 +43,8 @@ def check_art(message, Art_of_capsules):
         button = telebot.types.InlineKeyboardButton(text='Положить в корзину!', callback_data="cb_" + Art_of_capsules + "_MCI:"+ str(message.chat.id))
         markup.add(button)
         bot.send_message(message.chat.id, "Для покупки капсул...", reply_markup=markup)
-
+    elif message.text == "Корзина":
+        pass
     else:
         bot.send_message(message.chat.id, 'Введите пожалуйста код:')
     conn.close()
@@ -87,12 +88,36 @@ def put_to_basket(call_data):
         print("В корзине уже есть этот Артикул ", result[0][2])
         Kol_ = result[0][2] + 1
         Amount = Kol_ * Price
-        query = "UPDATE BASKET SET Kol = ? WHERE Art = ?"
-        data_ = [Kol_, Articule]
+        query = "UPDATE BASKET SET Kol = ?, Amount = ? WHERE Art = ?"
+        data_ = [Kol_, Amount, Articule]
         cursor.execute(query, data_)
         conn.commit()
     bot.send_message(Id, "Капсулы добавлены в корзину. Вы можете продолжить выбирать товары или перейти в корзину для покупки!")
     conn.close()
+
+def read_basket(message):
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+    query = "SELECT * FROM BASKET WHERE User_id = ?"
+    cursor.execute(query, (message.chat.id,))
+    result = cursor.fetchall()
+    if result:
+        #print(len(result))
+        item = 0
+        Amount = 0
+        while item < len(result):
+            print(result[item][0], result[item][1], result[item][2], result[item][3] )
+            msg = "Капсулы: " + result[item][1] + "\nКол-во: " + str(result[item][2]) +" уп. " + " На сумму: " + \
+                  str(result[item][3]) + " Руб."
+            bot.send_message(message.chat.id, msg )
+            Amount = Amount + result[item][3]
+            item +=1
+        bot.send_message(message.chat.id, "Всего на сумму : " + str(Amount) + " Руб.")
+        bot.send_message(message.chat.id, "Хотите изменить количество? Пришлите мне наименование "
+                                          "капсул и количество упаковок через пробел, например: Green 4 или Pink 1. "
+                                          "Чтобы удалить капсулы из корзины вместо количества введите 0")
+    else:
+        bot.send_message(message.chat.id, "В корзине пока пусто!")
 
 def read_user(message):
     conn = sqlite3.connect(r'db/kokka.db')
@@ -319,8 +344,10 @@ def send_text(message):
             #     bot.send_message(message.chat.id, "The code was checked " + str(kol) + " times")
             # elif langv == 'Ru':
             bot.send_message(message.chat.id, "Код был проверен " + str(kol) + " раз")
+    elif message.text == "Корзина":
+        print(message.text, "В корзине")
+        read_basket(message)
     else:
-        #print("прошел")
         check_art(message, message.text)
 
 if __name__ == '__main__':
