@@ -101,7 +101,8 @@ def put_to_basket(call_data):
     bot.send_message(Id, "Капсулы добавлены в корзину. Вы можете продолжить выбирать товары или перейти в корзину для покупки!")
     conn.close()
 
-def read_basket(message):
+def read_basket(message, silence):
+    print(silence)
     conn = sqlite3.connect(r'db/kokka.db')
     cursor = conn.cursor()
     query = "SELECT * FROM BASKET WHERE User_id = ?"
@@ -112,18 +113,21 @@ def read_basket(message):
         item = 0
         Amount = 0
         while item < len(result):
-            print(result[item][0], result[item][1], result[item][2], result[item][3] )
-            msg = "Капсулы: " + result[item][1] + "\nКол-во: " + str(result[item][2]) +" уп. " + " На сумму: " + \
+            #print(result[item][0], result[item][1], result[item][2], result[item][3] )
+            if silence == 1:
+                msg = "Капсулы: " + result[item][1] + "\nКол-во: " + str(result[item][2]) +" уп. " + " На сумму: " + \
                   str(result[item][3]) + " Руб."
-            bot.send_message(message.chat.id, msg )
+                bot.send_message(message.chat.id, msg )
             Amount = Amount + result[item][3]
             item +=1
-        bot.send_message(message.chat.id, "Всего на сумму : " + str(Amount) + " Руб.")
-        bot.send_message(message.chat.id, "Хотите изменить количество? Пришлите мне наименование "
+        if silence == 1:
+            bot.send_message(message.chat.id, "Всего на сумму : " + str(Amount) + " Руб.")
+            bot.send_message(message.chat.id, "Хотите изменить количество? Пришлите мне наименование "
                                           "капсул и количество упаковок через пробел, например: Green 4 или Pink 1. "
                                           "Чтобы удалить капсулы из корзины вместо количества введите 0")
     else:
-        bot.send_message(message.chat.id, "В корзине пока пусто!")
+        if silence == 1:
+            bot.send_message(message.chat.id, "В корзине пока пусто!")
     return item
 
 def read_user(message):
@@ -197,7 +201,7 @@ def start_message(message):
     # сохраняем позицию для пользователя Позиция = 1
     save_stack(message.chat.id, 1)
 
-    kol_in_basket = read_basket(message) # Кооличество позиций в корзине
+    kol_in_basket = read_basket(message,0) # Кооличество позиций в корзине
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
     start_menu.row('Для лица', 'Вокруг глаз', 'Для тела', 'Для волос')
     start_menu.row('Корзина(' +  str(kol_in_basket) + ')', 'Доставка', 'О нас')
@@ -351,9 +355,9 @@ def send_text(message):
             #     bot.send_message(message.chat.id, "The code was checked " + str(kol) + " times")
             # elif langv == 'Ru':
             bot.send_message(message.chat.id, "Код был проверен " + str(kol) + " раз")
-    elif message.text == "Корзина":
+    elif message.text.split('(')[0] == "Корзина": # Articule = call_data.split('_')[1]
         print(message.text, "В корзине")
-        read_basket(message)
+        read_basket(message,1)
     else:
         check_art(message, message.text)
 
