@@ -14,11 +14,6 @@ shipping_options = [
 
 bot = telebot.TeleBot(bot_token)
 
-# def choose_mess(message, Art_of_capsules):
-#     msg = ""
-#     msg = msg + "\n" + MESSAGES[Art_of_capsules + "_ru"] + "\n"
-#     return msg
-
 def save_stack(chat_id, num):
     conn = sqlite3.connect(r'db/kokka.db')
     cursor = conn.cursor()
@@ -122,6 +117,7 @@ def read_basket(message, silence):
             item +=1
         if silence == 1:
             bot.send_message(message.chat.id, "Всего на сумму : " + str(Amount) + " Руб.")
+            # нужно подумать!
             bot.send_message(message.chat.id, "Хотите изменить количество? Пришлите мне наименование "
                                           "капсул и количество упаковок через пробел, например: Green 4 или Pink 1. "
                                           "Чтобы удалить капсулы из корзины вместо количества введите 0")
@@ -149,7 +145,7 @@ def update_user(chat_id, langv):
     cursor.execute(query, (langv, chat_id,))
     conn.commit()
     conn.close()
-
+#
 # def read_langv(chat_id):
 #     #print(chat_id)
 #     conn = sqlite3.connect(r'db/kokka.db')
