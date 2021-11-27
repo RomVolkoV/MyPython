@@ -197,7 +197,7 @@ def start_message(message):
     # сохраняем позицию для пользователя Позиция = 1
     save_stack(message.chat.id, 1)
 
-    kol_in_basket = read_basket(message,0) # Кооличество позиций в корзине
+    kol_in_basket = read_basket(message,0) # Прочитать кооличество позиций в корзине и информацию на экран не выводить
     start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
     start_menu.row('Для лица', 'Вокруг глаз', 'Для тела', 'Для волос')
     start_menu.row('Корзина(' +  str(kol_in_basket) + ')', 'Доставка', 'О нас')
