@@ -131,6 +131,10 @@ Red_ru = '''\
 KokkaSun Red 
 '''
 
+Grape_ru = '''\
+KokkaSun Grape 
+'''
+
 AU_error = '''\
 Something went wrong!
 '''
@@ -181,4 +185,5 @@ MESSAGES = {
     'Rose_ru': Rose_ru,
     'Red': Red,
     'Red_ru': Red_ru,
+    'Grape_ru': Grape_ru
 }

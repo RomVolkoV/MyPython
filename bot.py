@@ -21,7 +21,16 @@ def save_stack(chat_id, num):
     cursor.execute(query, (num, chat_id))
     conn.commit()
     conn.close()
-    #print('Update', chat_id, '_', num)
+
+def read_stack(chat_id):
+    conn = sqlite3.connect(r'db/kokka.db')
+    cursor = conn.cursor()
+    query = 'SELECT * FROM USERS WHERE User_id = ?'
+    cursor.execute(query, (chat_id,))
+    result = cursor.fetchall()  # читаем все
+    conn.commit()
+    conn.close()
+    return result[0][6]
 
 def check_art(message, Art_of_capsules):
     print("Art_of_capsules = ", Art_of_capsules.strip())
@@ -199,26 +208,26 @@ def make_menu(message, pos):
     elif pos == 2:
         start_menu.row('Pearl', 'Pink', 'Violet', 'Grape')
         start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
-        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+        bot.send_message(message.chat.id, "Капсулы для лица " + message.text, reply_markup=start_menu)
     elif pos == 3:
         start_menu.row('Purple', 'Grape')
         start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
-        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+        bot.send_message(message.chat.id, "Капсулы для глаз " + message.text, reply_markup=start_menu)
     elif pos == 4:
         start_menu.row('Grape', 'ET-Gold', 'ET-Purple')
         start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
-        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+        bot.send_message(message.chat.id, "Капсулы для тела " + message.text, reply_markup=start_menu)
     elif pos == 5:
         start_menu.row('Green')
         start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
-        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+        bot.send_message(message.chat.id, "КоккаSun " + message.text, reply_markup=start_menu)
     elif pos == 6:
         start_menu.row('Редактировать')
         start_menu.row('Оплатить', 'Назад')
-        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
-    elif pos == 7 or pos == 8:
-        start_menu.row('Назад')
-        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+        bot.send_message(message.chat.id, "КоккаSun " + message.text, reply_markup=start_menu)
+    # elif pos == 7 or pos == 8:
+    #     start_menu.row('Назад')
+    #     bot.send_message(message.chat.id, "КоккаSun " + message.text, reply_markup=start_menu)
 
 
 # def gen_markup():
@@ -235,12 +244,7 @@ def start_message(message):
     # сохраняем позицию для пользователя Позиция = 1
     save_stack(message.chat.id, 1)
     make_menu(message, 1)
-    # kol_in_basket = read_basket(message,0) # Прочитать кооличество позиций в корзине и информацию на экран не выводить
-    # start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-    # start_menu.row('Для лица', 'Вокруг глаз', 'Для тела', 'Для волос')
-    # start_menu.row('Корзина(' +  str(kol_in_basket) + ')', 'Доставка', 'О нас')
-    # bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
-    # bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
+
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -269,12 +273,7 @@ def process_terms_command(message):
 def help_message(message):
     save_stack(message.chat.id, 1)
     make_menu(message, 11)
-    # kol_in_basket = read_basket(message, 0)  # Прочитать кооличество позиций в корзине и информацию на экран не выводить
-    # start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-    # start_menu.row('Для лица', 'Вокруг глаз', 'Для тела', 'Для волос')
-    # start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Доставка', 'О нас')
-    # bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
-    # bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+
 
 @bot.message_handler(commands=['pay'])
 def process_buy_command(message):
@@ -332,7 +331,7 @@ def send_text(message):
     #     bot.send_message(message.chat.id, MESSAGES['start_message'], reply_markup=start_menu)
     # if message.text == 'Rus':
     #     update_user(message.chat.id, 'Ru')
-    bot.send_message(message.chat.id, "КоккаSun " + message.text, reply_markup=start_menu)
+    #bot.send_message(message.chat.id, "КоккаSun " + message.text, reply_markup=start_menu)
     #bot.send_message(message.chat.id, MESSAGES['text_message_ru'] + message.text, reply_markup=start_menu)
 
     #langv = read_langv(message.chat.id)
@@ -386,22 +385,47 @@ def send_text(message):
             #     bot.send_message(message.chat.id, "The code was checked " + str(kol) + " times")
             # elif langv == 'Ru':
             bot.send_message(message.chat.id, "Код был проверен " + str(kol) + " раз")
+    elif message.text == "Назад":
+        pos = read_stack(message.chat.id)
+        print("Позиция : ", pos)
+        if pos == 2 or pos == 3 or pos == 4 or pos == 5:
+            make_menu(message, 1)
+            save_stack(message.chat.id, 1)
+        else:
+            make_menu(message, pos - 6)
+            save_stack(message.chat.id, pos-6)
     elif message.text == "Для лица":
-        pass # Меню с капсулами Pearl, Pink, Violet, Grape
+        # Меню с капсулами Pearl, Pink, Violet, Grape
+        # Текущая поза = 1, сохраняем 3
+        save_stack(message.chat.id,2)
+        make_menu(message, 2)
     elif message.text == "Вокруг глаз":
-        pass # Меню с капсулами Purple, Grape
+        # Меню с капсулами Purple, Grape
+        save_stack(message.chat.id, 3)
+        make_menu(message, 3)
     elif message.text == "Для тела":
-        pass # Меню с капсулами Grape, ET-Gold, ET-Purple
+        # Меню с капсулами Grape, ET-Gold, ET-Purple
+        save_stack(message.chat.id, 4)
+        make_menu(message,4)
     elif message.text == "Для волос":
-        pass # Меню с капсулами Green
+        save_stack(message.chat.id, 5)
+        make_menu(message, 5)
+        # Меню с капсулами Green
     elif message.text == "Доставка":
-        pass
+        # make_menu(message, 7)
+        pass # Вывести текстовку о доставке
+
     elif message.text == "О нас":
-        pass
+        # make_menu(message, 8)
+        pass # Вывести текстовку о нас
 
     elif message.text.split('(')[0] == "Корзина": # Articule = call_data.split('_')[1]
-        print(message.text, "В корзине")
+        pos = read_stack(message.chat.id)
+        print("Текущая позиция", pos)
         read_basket(message,1)
+        make_menu(message, 6)
+        save_stack(message.chat.id, 6 + pos)
+
     else:
         check_art(message, message.text)
 
