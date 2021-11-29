@@ -183,6 +183,44 @@ def check_code(message, text):
     conn.close()
     return (res)
 
+def make_menu(message, pos):
+    kol_in_basket = read_basket(message, 0)  # Прочитать кооличество позиций в корзине и информацию на экран не выводить
+    start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
+    if pos == 1:
+        start_menu.row('Для лица', 'Вокруг глаз', 'Для тела', 'Для волос')
+        start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Доставка', 'О нас')
+        bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
+        bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
+    elif pos == 11:
+        start_menu.row('Для лица', 'Вокруг глаз', 'Для тела', 'Для волос')
+        start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Доставка', 'О нас')
+        bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
+        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+    elif pos == 2:
+        start_menu.row('Pearl', 'Pink', 'Violet', 'Grape')
+        start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
+        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+    elif pos == 3:
+        start_menu.row('Purple', 'Grape')
+        start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
+        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+    elif pos == 4:
+        start_menu.row('Grape', 'ET-Gold', 'ET-Purple')
+        start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
+        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+    elif pos == 5:
+        start_menu.row('Green')
+        start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
+        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+    elif pos == 6:
+        start_menu.row('Редактировать')
+        start_menu.row('Оплатить', 'Назад')
+        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+    elif pos == 7 or pos == 8:
+        start_menu.row('Назад')
+        bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+
+
 # def gen_markup():
 #     markup = InlineKeyboardMarkup()
 #     #markup.row_width = 2
@@ -196,13 +234,13 @@ def start_message(message):
     print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, ' написал start')
     # сохраняем позицию для пользователя Позиция = 1
     save_stack(message.chat.id, 1)
-
-    kol_in_basket = read_basket(message,0) # Прочитать кооличество позиций в корзине и информацию на экран не выводить
-    start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-    start_menu.row('Для лица', 'Вокруг глаз', 'Для тела', 'Для волос')
-    start_menu.row('Корзина(' +  str(kol_in_basket) + ')', 'Доставка', 'О нас')
-    bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
-    bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
+    make_menu(message, 1)
+    # kol_in_basket = read_basket(message,0) # Прочитать кооличество позиций в корзине и информацию на экран не выводить
+    # start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
+    # start_menu.row('Для лица', 'Вокруг глаз', 'Для тела', 'Для волос')
+    # start_menu.row('Корзина(' +  str(kol_in_basket) + ')', 'Доставка', 'О нас')
+    # bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
+    # bot.send_message(message.chat.id, MESSAGES['start_message_ru'], reply_markup=start_menu)
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -229,17 +267,14 @@ def process_terms_command(message):
 
 @bot.message_handler(commands=['help'])
 def help_message(message):
-#    read_user(message)
-    #print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username,
-#         ' написал help')
-    #langv = read_langv(message.chat.id)
-    start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-    #start_menu.add('Для лица', 'Для тела', 'Для волос')
-    #start_menu.row('Eng', 'Rus')
-    #if langv == 'En':
-    #    bot.send_message(message.chat.id, MESSAGES['help_message'], reply_markup=start_menu)
-    #elif langv == 'Ru':
-    bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
+    save_stack(message.chat.id, 1)
+    make_menu(message, 11)
+    # kol_in_basket = read_basket(message, 0)  # Прочитать кооличество позиций в корзине и информацию на экран не выводить
+    # start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
+    # start_menu.row('Для лица', 'Вокруг глаз', 'Для тела', 'Для волос')
+    # start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Доставка', 'О нас')
+    # bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
+    # bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
 
 @bot.message_handler(commands=['pay'])
 def process_buy_command(message):
@@ -287,10 +322,10 @@ def got_payment(message):
 def send_text(message):
     print(message.chat.id, message.from_user.first_name, message.from_user.last_name, message.from_user.username, 'написал: ', message.text,datetime.datetime.today().strftime("%d.%m.%Y %H:%M:%S"))
     read_user(message)
-    start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
-    start_menu.row('Green', 'Pearl', 'Pink', 'Purple')
-    start_menu.row('Violet', 'Grape', 'Gold')
-    start_menu.row('Корзина')
+    # start_menu = telebot.types.ReplyKeyboardMarkup(True, True)
+    # start_menu.row('Green', 'Pearl', 'Pink', 'Purple')
+    # start_menu.row('Violet', 'Grape', 'Gold')
+    # start_menu.row('Корзина')
     #bot.send_photo(message.chat.id, open('pic\\kokkasun.png', 'rb'))
     # if message.text == 'Eng':
     #     update_user(message.chat.id, 'En')
@@ -351,6 +386,19 @@ def send_text(message):
             #     bot.send_message(message.chat.id, "The code was checked " + str(kol) + " times")
             # elif langv == 'Ru':
             bot.send_message(message.chat.id, "Код был проверен " + str(kol) + " раз")
+    elif message.text == "Для лица":
+        pass # Меню с капсулами Pearl, Pink, Violet, Grape
+    elif message.text == "Вокруг глаз":
+        pass # Меню с капсулами Purple, Grape
+    elif message.text == "Для тела":
+        pass # Меню с капсулами Grape, ET-Gold, ET-Purple
+    elif message.text == "Для волос":
+        pass # Меню с капсулами Green
+    elif message.text == "Доставка":
+        pass
+    elif message.text == "О нас":
+        pass
+
     elif message.text.split('(')[0] == "Корзина": # Articule = call_data.split('_')[1]
         print(message.text, "В корзине")
         read_basket(message,1)
