@@ -366,9 +366,9 @@ def send_text(message):
         # elif langv == 'Ru':
         msg = msg + "Серия - " + batch + "\n" + "Произведено - " + data_mfg + "\n" + "Годен до - " + data_exp + "\n"
         bot.send_message(message.chat.id, msg)
-        time.sleep(1)
+        #time.sleep(1)
         bot.send_photo(message.chat.id, open('pic\\'+ photo, 'rb'))
-        time.sleep(1)
+        #time.sleep(1)
         bot.send_photo(message.chat.id, open('pic\\' + bc_pic, 'rb'))
         if kol == 1:
             time.sleep(1)
@@ -380,7 +380,7 @@ def send_text(message):
             msg_ = msg_ + 'Сохраните этот код для дальнейшего участия в акциях КоккаSun!'
             bot.send_message(message.chat.id, msg_)
         else:
-            time.sleep(1)
+            #time.sleep(1)
             # if langv == 'En':
             #     bot.send_message(message.chat.id, "The code was checked " + str(kol) + " times")
             # elif langv == 'Ru':
