@@ -154,18 +154,6 @@ def update_user(chat_id, langv):
     cursor.execute(query, (langv, chat_id,))
     conn.commit()
     conn.close()
-#
-# def read_langv(chat_id):
-#     #print(chat_id)
-#     conn = sqlite3.connect(r'db/kokka.db')
-#     cursor = conn.cursor()
-#     query = 'SELECT * FROM USERS WHERE User_id = ?'
-#     cursor.execute(query,  (chat_id,))
-#     res = cursor.fetchall()  # читаем все
-#     result = list(res[0])[2]
-#     conn.commit()
-#     conn.close()
-#     return result
 
 def check_code(message, text):
     conn = sqlite3.connect(r'db/kokka.db')
@@ -229,7 +217,6 @@ def make_menu(message, pos):
     #     start_menu.row('Назад')
     #     bot.send_message(message.chat.id, "КоккаSun " + message.text, reply_markup=start_menu)
 
-
 # def gen_markup():
 #     markup = InlineKeyboardMarkup()
 #     #markup.row_width = 2
@@ -245,8 +232,6 @@ def start_message(message):
     save_stack(message.chat.id, 1)
     make_menu(message, 1)
 
-
-
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
     bot.answer_callback_query(call.id, "Капсулы в корзине!")
@@ -258,8 +243,6 @@ def callback_query(call):
         bot.answer_callback_query(call.id, "Pearl-капсулы в корзине")
     elif call.data == "cb_Green":
         bot.answer_callback_query(call.id, "Green-капсулы в корзине")
-
-
 
 @bot.message_handler(commands=['terms'])
 def process_terms_command(message):
