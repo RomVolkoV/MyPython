@@ -195,12 +195,13 @@ def make_menu(message, pos):
         bot.send_message(message.chat.id, MESSAGES['help_message_ru'], reply_markup=start_menu)
     elif pos == 2:
         start_menu.row('Pearl', 'Pink', 'Violet', 'Grape')
+        start_menu.row('Gold', 'White', 'Yellow')
         start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
         bot.send_message(message.chat.id, "Капсулы для лица " + message.text, reply_markup=start_menu)
     elif pos == 3:
-        start_menu.row('Purple', 'Grape')
+        start_menu.row('Purple', 'Rose' 'Grape')
         start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
-        bot.send_message(message.chat.id, "Капсулы для глаз " + message.text, reply_markup=start_menu)
+        bot.send_message(message.chat.id, "Капсулы для кожи вокруг глаз " + message.text, reply_markup=start_menu)
     elif pos == 4:
         start_menu.row('Grape', 'ET-Gold', 'ET-Purple')
         start_menu.row('Корзина(' + str(kol_in_basket) + ')', 'Назад')
