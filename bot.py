@@ -106,7 +106,7 @@ def put_to_basket(call_data):
     conn.close()
 
 def read_basket(message, silence):
-    print(silence)
+    #print(silence)
     conn = sqlite3.connect(r'db/kokka.db')
     cursor = conn.cursor()
     query = "SELECT * FROM BASKET WHERE User_id = ?"
