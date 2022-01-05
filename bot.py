@@ -112,7 +112,7 @@ def read_basket(message, silence):
     query = "SELECT * FROM BASKET WHERE User_id = ?"
     cursor.execute(query, (message.chat.id,))
     result = cursor.fetchall()
-    if result:
+    if result == []:
         #print(len(result))
         item = 0
         Amount = 0
