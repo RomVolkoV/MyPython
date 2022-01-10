@@ -6,6 +6,7 @@ from mess import MESSAGES
 from telebot.types import LabeledPrice, ShippingOption, InlineKeyboardMarkup, InlineKeyboardButton
 from config import bot_token, ukassa_token
 
+
 prices = [LabeledPrice(label='KokkaSun Pearl Capsules', amount=75000)]
 #prices = [LabeledPrice(label='KokkaSun capsules', amount=7500), LabeledPrice('Подарочная упаковка', 500)]
 shipping_options = [
