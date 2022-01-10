@@ -13,7 +13,6 @@ with open ("proba.csv", "w") as file:
     writer.writerow(
         ("user_name", "country")
     )
-
 users_data = [
     ["user1", "country1"],
     ["user2", "country2"],
@@ -42,15 +41,15 @@ with open("data.csv", "w") as file:
 
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-    print_hi('RomV')
-    print("Разбираюсь212")
+# def print_hi(name):
+#     # Use a breakpoint in the code line below to debug your script.
+#     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+#
+#
+# # Press the green button in the gutter to run the script.
+# if __name__ == '__main__':
+#     print_hi('PyCharm')
+#     print_hi('RomV')
+#     print("Разбираюсь212")
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
