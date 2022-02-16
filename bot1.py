@@ -84,13 +84,11 @@ def shipping(shipping_query):
     bot.answer_shipping_query(shipping_query.id, ok=True, shipping_options=shipping_options,
                               error_message='Oh, seems like our Dog couriers are having a lunch right now. Try again later!')
 
-
 @bot.pre_checkout_query_handler(func=lambda query: True)
 def checkout(pre_checkout_query):
     bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True,
                                   error_message="Aliens tried to steal your card's CVV, but we successfully protected your credentials,"
                                                 " try to pay again in a few minutes, we need a small rest.")
-
 
 @bot.message_handler(content_types=['successful_payment'])
 def got_payment(message):
