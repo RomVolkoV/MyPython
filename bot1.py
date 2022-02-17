@@ -24,7 +24,6 @@ def command_start(message):
                      " I can sell you a Time Machine."
                      " Use /buy to order one, /terms for Terms and Conditions")
 
-
 @bot.message_handler(commands=['terms'])
 def command_terms(message):
     bot.send_message(message.chat.id,
@@ -76,7 +75,6 @@ def command_pay(message):
                      prices=prices,
                      start_parameter='time-machine-example',
                      invoice_payload='HAPPY FRIDAYS COUPON')
-
 
 @bot.shipping_query_handler(func=lambda query: True)
 def shipping(shipping_query):
