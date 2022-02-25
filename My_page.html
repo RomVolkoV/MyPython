@@ -31,6 +31,58 @@
 	</article>
 	</section>
 </header>
+<form name="form" action="script.php" method="get" enctype="multipart/form-data">
+	<fieldset>
+		<legend>Введите данные в форму</legend>
+		<div>
+			<label for="firstname">Имя:</label>
+			<input id="firstname" type="text" name="firstname" placeholder="Name" />
+		</div>
+		<div>
+			<label for="email">E-mail:</label>
+			<input id="email" type="email" name="email" placeholder="example@example.com" />
+		</div>
+		<div>
+			<label for="password">Пароль:</label>
+			<input id="password" type="password" name="password" />
+		</div>
+		<div>
+			<label for="password1">Подтердите пароль:</label>
+			<input id="password1" type="password1" name="password1" />
+		</div>
+		<div>
+			<label for="phone">Телефон:</label>
+			<input id="phone" type="tel" name="phone" />
+		</div>
+		<div>
+			<label for="city">Город:</label>
+			<select id="city" name="city" size="5">
+				<option value="1">Moscow</option>
+				<option value="2">St.Petersburg</option>
+				<option value="3">Zeleznovodsk</option>
+				<option value="4">Pyatigorsk</option>
+				<option value="5">Vancouver</option>
+				<option value="6">London</option>
+			</select>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Пожелания, подписка, отправка</legend>
+		<div>
+			<label for="message">Ваши пожелания:</label>
+			<textarea id="message" name="message">Введите пожелание</textarea>
+		</div>
+		<div>
+			<label>Подписаться на новости</label>
+			<input type="checkbox" name="news" value="1" checked="checked" />
+		</div>
+		<div>
+			<label>Отправить данные</label>
+			<input type="submit" name="submit" value="Отправить" />
+		</div>
+	</fieldset>
+</form>
+
 <br />
 <table>
 	<th>№</th>
