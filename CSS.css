@@ -1,12 +1,12 @@
-@import url("color.css");
+@@import url("color.css");
 
 @font-face {
-    font-family: BadScript;
-    src: url("../fonts/BadScript.woff2") format("woff2"), url("../fonts/BadScript.woff") format("woff");
+    font-family: Garamond;
+    src: url("../fonts/garamond.woff2") format("woff2"), url("../fonts/garamond.woff") format("woff");
 }
 
 body {
-    font-family: BadScript;
+    font-family: Garamond;
 }
 
 h1 {
@@ -15,3 +15,8 @@ h1 {
 
 p {
 	font-size: 150%;
+}
+
+.shadow {
+	text-shadow: 5px 4px 5px #c00;
+}
