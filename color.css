@@ -1,3 +1,25 @@
+@@import url("color.css");
+
+@font-face {
+    font-family: Garamond;
+    src: url("../fonts/garamond.woff2") format("woff2"), url("../fonts/garamond.woff") format("woff");
+}
+
+body {
+    font-family: Garamond;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+	font-size: 150%;
+}
+
+.shadow {
+	text-shadow: 5px 4px 5px #c00;
+}
 body {
     font-size: 200%;
 }
