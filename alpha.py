@@ -6,8 +6,8 @@
 # h1,m1,s1,h2,m2,s2 = [int(input()) for _ in range(6)]
 # print(h1,m1,s1,h2,m2,s2)
 
-# c = [x ** 3 for x in range(20) if x%2==1]
-# print(c)
+c = [x ** 3 for x in range(20) if x%2==1]
+print(c)
 
 b1 = True
 b2 = True
