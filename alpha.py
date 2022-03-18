@@ -13,8 +13,8 @@ b1 = True
 b2 = True
 print(b1 and b2)
 
-# array = [1,4,3,2.5,True,"romv"]
-# for i in list: print(i, " ", end="")
+array = [1,4,3,2.5,True,"romv"]
+for i in list: print(i, " ", end="")
 
 array = [i for i in range(1,20) if i%2 == 0]
 print(array)
