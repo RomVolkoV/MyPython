@@ -2,7 +2,16 @@ from bs4 import BeautifulSoup
 import json
 import requests
 
-url = "http://health-diet.ru/table_calorie/?utm_source=leftMenu&utm_medium=table_calorie"
+def print_hi(name):
+    # Use a breakpoint in the code line below to debug your script.
+    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+
+if __name__ == '__main__':
+    print_hi('Началось')
+
+
+url = "https://cbr.ru/currency_base/daily/"
 
 headers = {
     "accept": "*/*",
@@ -12,19 +21,44 @@ headers = {
 
 req = requests.get(url, headers = headers)
 src = req.text
-print(src)
+# print(src)
 
-# with open("index3.html","w", encoding = 'utf-8') as file:
+# with open("cbr_.html","w", encoding = 'utf-8') as file:
 #     file.write(src)
-#
-# with open("blank/index3.html","r", encoding = 'utf-8') as file:
+
+# with open("cbr_.html","r", encoding = 'utf-8') as file:
 #      src = file.read()
+
+# Получаем
+soup = BeautifulSoup(src,"lxml")
+# all_currency = soup.find_all(class_ = "data").find("tr").find_all("th")
+# title = soup.find_all(class_ = "data").find("th")
+# title = soup.find(class_ = "data").find_all("th")
 #
-# Получаем ссылки по всем группам продуктам - класс один и тот ж у всех групп
-# soup = BeautifulSoup(src,"lxml")
-# all_products_href = soup.find_all(class_ = "mzr-tc-group-item-href")
-# #i = 0
-#
+# i = 0
+# title_array = []
+# for item in title:
+#     title_array.append(item.text)
+# print(title_array)
+
+all_currency = soup.find(class_ = "data").find_all("td")
+
+data_array=[]
+for item in all_currency:
+    data_array.append(item.text)
+
+i = 0
+for item in data_array:
+    if item == "Евро":
+        print("Курс " + item + " : ", data_array[i+1])
+    i += 1
+    # str_=""
+    # for _ in range(0,5):
+    #     str_= str_+ " " + data_array[i]
+    #     i +=1
+    # print(str_)
+    # print(data_array)
+
 # all_categories_dict = {}
 # for item in all_products_href:
 #     item_text = item.text
