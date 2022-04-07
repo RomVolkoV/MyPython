@@ -215,12 +215,12 @@ def make_menu(message, pos):
         start_menu.row('Оплатить', 'Назад')
         bot.send_message(message.chat.id, "КоккаSun " + message.text, reply_markup=start_menu)
 
-# def gen_markup():
-#     markup = InlineKeyboardMarkup()
-#     #markup.row_width = 2
-#     markup.add(InlineKeyboardButton("Yes", callback_data="cb_basket"))
-# #                               InlineKeyboardButton("No", callback_data="cb_no"))
-#     #return markup
+def gen_markup():
+    markup = InlineKeyboardMarkup()
+    #markup.row_width = 2
+    markup.add(InlineKeyboardButton("Yes", callback_data="cb_basket"))
+#                               InlineKeyboardButton("No", callback_data="cb_no"))
+    #return markup
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
