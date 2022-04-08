@@ -18,3 +18,7 @@ for i in array: print(i, " ", end=" ")
 print()
 array = [i for i in range(1,20) if i%2 == 0]
 print(array)
+
+d = {'a': 11, 'b': 22, 'c': 33}
+print(d[list(d)[0]])
+print(d[list(d.keys())[1]])
