@@ -19,6 +19,10 @@ print()
 array = [i for i in range(1,20) if i%2 == 0]
 print(array)
 
-# d = {'a': 11, 'b': 22, 'c': 33}
-# print(d[list(d)[0]])
-# print(d[list(d.keys())[1]])
+d = {'a': 'Hello', 'b': 'Bye', 'c': 'Stop'}
+
+str_1 = d[list(d)[0]]
+print(str_1)
+print(str_1.lower())
+print(d[list(d)[0]].lower())
+print(d[list(d.keys())[1]].lower())
