@@ -19,12 +19,12 @@ headers = {
                   "Chrome/93.0.4577.82 YaBrowser/21.9.2.169 Yowser/2.5 Safari/537.36"
 }
 
-# req = requests.get(url, headers = headers)
-# src = req.text
-#print(src)
-#
-# with open("cbr_.html","w", encoding = 'utf-8') as file:
-#     file.write(src)
+req = requests.get(url, headers = headers)
+src = req.text
+print(src)
+
+with open("cbr_.html","w", encoding = 'utf-8') as file:
+    file.write(src)
 
 with open("cbr_.html","r", encoding = 'utf-8') as file:
      src = file.read()
