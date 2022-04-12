@@ -1,2 +1,1 @@
-bot_token = '1833545970:AAG9lOO9PZ8Yur3gu--N8GTcQkNc4ALg8dI'
-ukassa_token = '381764678:TEST:30583'
+Uassa_token = '381764678:TEST:30583'
