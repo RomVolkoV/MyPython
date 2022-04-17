@@ -2,7 +2,7 @@ import telebot
 from mess import MESSAGES
 from telebot.types import LabeledPrice, ShippingOption
 
-token = '1833545970:AAG9lOO9PZ8Yur3gu--N8GTcQkNc4ALg8dI'
+token = ''
 provider_token = '381764678:TEST:30583'
 ukassa_token = '381764678:TEST:30583'
 
